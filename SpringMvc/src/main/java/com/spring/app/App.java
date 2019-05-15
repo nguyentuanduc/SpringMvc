@@ -1,11 +1,13 @@
 package com.spring.app;
 
+import com.spring.persistence.SessionUtil;
+
 public class App {
 
 	public static void main(String[] args) {
-		System.out.println("Hello the digital world");
+		SessionUtil instance = new SessionUtil();
+		instance.listContactDetail();
 		
-		System.out.println("test");
 	}
 
 	
