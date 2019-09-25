@@ -160,6 +160,15 @@ public class SessionUtil {
 		return product;
 	}
 
+	public void delete(Product product) {
+		Session session = factory.openSession();
+		Transaction tx = session.beginTransaction();
+		session.delete(product);
+		tx.commit();
+		session.close();
+	}
+	
+	
 	public List<Contact> listContact() {
 		Session session = factory.openSession();
 		List<Contact> list = session.createQuery("from contact c").list();

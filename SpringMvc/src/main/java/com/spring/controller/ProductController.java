@@ -99,7 +99,7 @@ public class ProductController {
 		return "product";
 	}
 
-	@RequestMapping(value ="/products/update", method = RequestMethod.GET)
+	@RequestMapping(value ="/product/update", method = RequestMethod.GET)
 	public String update(Model model,  HttpServletRequest request, @RequestParam("id") String producId) {
 		String path = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
 		System.out.println("-----------------------------");
@@ -116,7 +116,7 @@ public class ProductController {
 		return "updateProduct";
 	}
 	
-	@RequestMapping(value ="/products/update", method = RequestMethod.POST)
+	@RequestMapping(value ="/product/update", method = RequestMethod.POST)
 	public String processUpdateProductForm(Model model,@ModelAttribute("updateProduct") Product updateProduct, BindingResult result, HttpServletRequest request) {
 		String path1 = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
 		System.out.println("-----------------------------");
@@ -125,7 +125,7 @@ public class ProductController {
 		model.addAttribute("path",path1);
 		
 		System.out.println(updateProduct);
-		Product product = sessionUtil.addProduct(updateProduct);
+		sessionUtil.updateProduct(updateProduct);
 		MultipartFile productImage = updateProduct.getProductImage();
 		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
 		if (productImage!=null && !productImage.isEmpty()) {
@@ -133,16 +133,34 @@ public class ProductController {
 				String path = "//home//javahero/workspace//develop/SpringMvc//SpringMvc//src//main//webapp//";
 					System.out.println(rootDirectory);
 					
-					productImage.transferTo(new File(rootDirectory + "resources//img//"+ product.getId() + ".png"));
+					productImage.transferTo(new File(rootDirectory + "resources//img//"+ updateProduct.getId() + ".png"));
 			}
 			catch (Exception e) { throw new RuntimeException("Product Image saving failed", e);
 			}
 		}
-		int id = product.getId();
-		product = sessionUtil.getProductById(id);
+		int id = updateProduct.getId();
+		Product product = sessionUtil.getProductById(id);
 		model.addAttribute("product",product);
 		System.out.println(updateProduct);
 		return "product";
+	}
+	
+	
+	@RequestMapping(value ="/product/delete", method = RequestMethod.GET)
+	public String delete(Model model,  HttpServletRequest request, @RequestParam("id") String producId) {
+		String path = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+		System.out.println("-----------------------------");
+		System.out.println(path);
+		System.out.println("-----------------------------");
+		model.addAttribute("path",path);
+		Product product = null;
+		if(NumberUtils.isDigits(producId)) {
+			int id = Integer.parseInt(producId);
+			product = sessionUtil.getProductById(id);
+			sessionUtil.delete(product);
+			
+		}
+		return "redirect:/products";
 	}
 	
 	@InitBinder

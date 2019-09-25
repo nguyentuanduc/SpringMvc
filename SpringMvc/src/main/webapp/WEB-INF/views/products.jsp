@@ -29,7 +29,11 @@
                         <p>Available ${product.unitsInStock} units in stock</p>
                      </div>
                      <p>
-                        <a href="product?id=${product.id}" class="btn  btn-primary btn-large"> <span class="glyphicon-shopping-cart glyphicon"> </span> Detail</a>
+                        <a href="product?id=${product.id}" class="btn  btn-info btn-sm"> <span class="glyphicon-shopping-cart glyphicon"> </span> Detail</a>
+                    
+                        <a href="product/update?id=${product.id}" class="btn  btn-primary btn-sm"> <span class="glyphicon-shopping-cart glyphicon"> </span> Update</a>
+                    
+                        <a href="product/delete?id=${product.id}" class="btn  btn-danger btn-sm"> <span class="glyphicon-shopping-cart glyphicon"> </span> Delete</a>
                     </p>
                   </div>
                   

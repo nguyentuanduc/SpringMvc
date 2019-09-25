@@ -23,6 +23,9 @@
                <legend>Add new product</legend>
                <div class="form-group">
                   <label class="control-label col-lg-2" for="description">Name</label> 
+                   <div class="col-lg-10">
+                     <form:input id="id" path="id" type="hidden" />
+                  </div>
                   <div class="col-lg-10">
                      <form:input id="name" path="name" type="text" class="form:input-large"/>
                   </div>

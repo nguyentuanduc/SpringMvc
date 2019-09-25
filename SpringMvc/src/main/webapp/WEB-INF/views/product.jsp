@@ -32,7 +32,7 @@
                 </div>
                 <div class="col-md-5">
                 <div class="thumbnail">
-                <img src="resources/img/${product.id}.png" > 
+                <img src="${path}/resources/img/${product.id}.png" > 
                 </div>
                  </div>
             </div>
