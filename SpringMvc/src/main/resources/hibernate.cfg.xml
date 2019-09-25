@@ -51,7 +51,11 @@
         <property name="hibernate.dbcp.maxWaitMillis">-1</property>
 
         <mapping class="com.spring.entity.Contact" />
+        <mapping class="com.spring.entity.Contact_new" />
+        <mapping class="com.spring.entity.Contact_insert" />
         <mapping class="com.spring.entity.ContractTelDetail" />
+        <mapping class="com.spring.entity.Hobby" />
+        <mapping class="com.spring.entity.Product" />
     </session-factory>
 
 </hibernate-configuration>

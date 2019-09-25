@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-@Entity(name = "CONTACT_TEL_DETAIL")
+@Entity(name = "contact_tel_detail")
 public class ContractTelDetail {
 
 	@Id
@@ -27,6 +27,8 @@ public class ContractTelDetail {
 	@ManyToOne
 	@JoinColumn(name = "CONTACT_ID")
 	private Contact contact;
+	
+	
 	
 	public Contact getContact() {
 		return contact;

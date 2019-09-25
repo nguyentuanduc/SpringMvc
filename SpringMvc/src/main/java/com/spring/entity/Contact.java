@@ -10,6 +10,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 
@@ -53,6 +56,21 @@ public class Contact {
 		getContractTelDetails().remove(contractTelDetail);
 	}
 	
+	@ManyToMany
+	@JoinTable(name = "contact_hobby_detail", 
+	joinColumns = @JoinColumn(name = "contact_id"), 
+	inverseJoinColumns = @JoinColumn(name = "hobby_id"))
+	private Set<Hobby> hobbys = new HashSet<Hobby>();
+	
+	
+	public Set<Hobby> getHobbys() {
+		return hobbys;
+	}
+
+	public void setHobbys(Set<Hobby> hobbys) {
+		this.hobbys = hobbys;
+	}
+
 	public int getId() {
 		return id;
 	}
