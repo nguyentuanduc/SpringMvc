@@ -56,6 +56,8 @@
         <mapping class="com.spring.entity.ContractTelDetail" />
         <mapping class="com.spring.entity.Hobby" />
         <mapping class="com.spring.entity.Product" />
+        <mapping class="com.spring.entity.Category" />
+        <mapping class="com.spring.entity.Publish" />
     </session-factory>
 
 </hibernate-configuration>

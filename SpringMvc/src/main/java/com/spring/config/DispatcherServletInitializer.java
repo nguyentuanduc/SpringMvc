@@ -6,8 +6,8 @@ public class DispatcherServletInitializer extends AbstractAnnotationConfigDispat
 
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		// TODO Auto-generated method stub
-		return null;
+		return new Class[] {WebSecurityConfig.class};
+		//return null;
 	}
 
 	@Override

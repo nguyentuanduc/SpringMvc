@@ -14,7 +14,7 @@ public class LoginController {
 	public String login(Model model, HttpServletRequest request) {
 		String path = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
 		model.addAttribute("path",path);
-		
+		System.out.println("login");
 		return "login";
 	}
 	

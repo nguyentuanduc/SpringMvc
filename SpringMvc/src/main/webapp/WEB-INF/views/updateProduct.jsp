@@ -18,7 +18,7 @@
          </div>
       </section>
       <section class="container">
-         <form:form method="POST" action="/SpringMvc/products/update" modelAttribute="updateProduct" class="form-horizontal" enctype="multipart/form-data">
+         <form:form method="POST" action="/SpringMvc/product/update" modelAttribute="updateProduct" class="form-horizontal" enctype="multipart/form-data">
             <fieldset>
                <legend>Add new product</legend>
                <div class="form-group">
@@ -51,13 +51,13 @@
                <div class="form-group">
                   <label class="control-label col-lg-2" for="description">UnitsInStock</label> 
                   <div class="col-lg-10">
-                     <form:input id="unitsInStock" path="unitsInStock" type="text" class="form:input-large" value="0"/>
+                     <form:input id="unitsInStock" path="unitsInStock" type="text" class="form:input-large" value=""/>
                   </div>
                </div>
                <div class="form-group">
                   <label class="control-label col-lg-2" for="description">UnitsInOrder</label> 
                   <div class="col-lg-10">
-                     <form:input id="unitsInOrder" path="unitsInOrder" type="text" class="form:input-large" value="0"/>
+                     <form:input id="unitsInOrder" path="unitsInOrder" type="text" class="form:input-large" value=""/>
                   </div>
                </div>
                <div class="form-group">

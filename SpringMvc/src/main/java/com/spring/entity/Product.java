@@ -1,14 +1,28 @@
 package com.spring.entity;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.web.multipart.MultipartFile;
 
 @Entity(name = "products")
@@ -44,10 +58,75 @@ public class Product {
 	
 	@Column(name = "discontinued", columnDefinition = "BIT", length = 1)
 	private Boolean discontinued;
-
+	
+	@Column(name = "created", updatable = false)
+	@CreationTimestamp
+	private Date created;
+	
+	@Column(name = "updated")
+	@UpdateTimestamp
+	private Date updated;
+	
+	
 	@Transient
 	private MultipartFile productImage;
 	
+    
+	
+	
+	public Date getCreated() {
+		return created;
+	}
+
+	public void setCreated(Date created) {
+		this.created = created;
+	}
+
+	public Date getUpdated() {
+		return updated;
+	}
+
+	public void setUpdated(Date updated) {
+		this.updated = updated;
+	}
+
+
+
+	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval=true)
+	private Set<Publish> publishs = new HashSet<Publish>();
+	
+	@ManyToMany
+	@JoinTable(name = "product_category_detail", 
+	joinColumns = @JoinColumn(name = "product_id"), 
+	inverseJoinColumns = @JoinColumn(name = "category_id"))
+	private Set<Category> categorys = new HashSet<Category>();
+	
+	
+	public Set<Publish> getPublishs() {
+		return publishs;
+	}
+
+	public void setPublishs(Set<Publish> publishs) {
+		this.publishs = publishs;
+	}
+
+	public Set<Category> getCategorys() {
+		return categorys;
+	}
+
+	public void setCategorys(Set<Category> categorys) {
+		this.categorys = categorys;
+	}
+
+	public void addPublish(Publish publish) {
+		publish.setProduct(this);
+		getPublishs().add(publish);
+	}
+	
+	public void removePublish(Publish publish) {
+		getPublishs().remove(publish);
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -140,13 +219,17 @@ public class Product {
 		this.productImage = productImage;
 	}
 
+	
+
 	@Override
 	public String toString() {
-		return "Products [id=" + id + ", name=" + name + ", description=" + description + ", unit_price=" + unitPrice
+		return "Product [id=" + id + ", name=" + name + ", description=" + description + ", unitPrice=" + unitPrice
 				+ ", manufacturer=" + manufacturer + ", category=" + category + ", condition=" + condition
 				+ ", unitsInStock=" + unitsInStock + ", unitsInOrder=" + unitsInOrder + ", discontinued=" + discontinued
-				+ "]";
+				+ ", created=" + created + ", productImage=" + productImage + ", publishs=" + publishs + ", categorys="
+				+ categorys + "]";
 	}
+
 	
 	
 	

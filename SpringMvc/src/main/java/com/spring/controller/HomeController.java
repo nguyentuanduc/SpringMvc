@@ -33,4 +33,13 @@ public class HomeController {
 		model.addAttribute("contacts",list);
 		return "contacts";
 	}
+	
+	@RequestMapping("/about")
+	public String about(Model model) {
+		System.out.println("hrelo");
+		List<Contact> list = sessionUtil.listContact();
+		model.addAttribute("greeting","hello MVC");
+		model.addAttribute("contacts",list);
+		return "about";
+	}
 }

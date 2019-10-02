@@ -16,7 +16,7 @@ import org.springframework.web.servlet.view.JstlView;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan("com.spring")
+@ComponentScan("com.spring.*")
 public class WebApplicationContextConfig extends WebMvcConfigurerAdapter {
 
 	@Override

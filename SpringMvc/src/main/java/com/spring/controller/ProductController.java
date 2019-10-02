@@ -1,12 +1,16 @@
 package com.spring.controller;
 
 import java.io.File;
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,13 +34,17 @@ public class ProductController {
 
 	
 	
-	@RequestMapping("/products")
+	@RequestMapping("/product/all")
 	public String list(Model model,  HttpServletRequest request) {
 		//System.out.println("-----------------------------");
 		//sessionUtil.getProductById();
 		//System.out.println("-----------------------------");
 		System.out.println("products");
-		
+		String currentUserName = null;
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (!(authentication instanceof AnonymousAuthenticationToken)) {
+		    currentUserName = authentication.getName();
+		}
 		
 		List<Product> list = sessionUtil.listProducts();
 		model.addAttribute("greeting","hello MVC");
@@ -48,35 +56,38 @@ public class ProductController {
 		System.out.println(path);
 		System.out.println("-----------------------------");
 		model.addAttribute("path",path);
+		model.addAttribute("username",currentUserName);
 		return "products";
 	}
 
-	@RequestMapping(value ="/products/add", method = RequestMethod.GET)
+	@RequestMapping(value ="/product/add", method = RequestMethod.GET)
 	public String getAddNewProductForm(Model model) {
 		Product product = new Product();
 		model.addAttribute("newProduct", product);
 		return "addProduct";
 	}
 
-	@RequestMapping(value ="/products/add", method = RequestMethod.POST)
+	@RequestMapping(value ="/product/add", method = RequestMethod.POST)
 	public String processAddNewProductForm(@ModelAttribute("newProduct") Product newProduct, BindingResult result, HttpServletRequest request) {
 		System.out.println(newProduct);
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        System.out.println(timestamp);
+        //newProduct.setCreated(timestamp);
 		Product product = sessionUtil.addProduct(newProduct);
 		MultipartFile productImage = newProduct.getProductImage();
 		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
 		if (productImage!=null && !productImage.isEmpty()) {
 			try {
-				String path = "//home//javahero/workspace//develop/SpringMvc//SpringMvc//src//main//webapp//";
 					System.out.println(rootDirectory);
 					
-					productImage.transferTo(new File(rootDirectory + "resources//img//"+ product.getId() + ".png"));
+					productImage.transferTo(new File(rootDirectory + "resources//img//"+ product.getId() + ".jpg"));
 			}
 			catch (Exception e) { throw new RuntimeException("Product Image saving failed", e);
 			}
 		}
 		
 		System.out.println(newProduct);
-		return "redirect:/products";
+		return "redirect:/product/all";
 	}
 
 	//Products [id=0, name=null, description=null, unit_price=null,
@@ -130,10 +141,8 @@ public class ProductController {
 		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
 		if (productImage!=null && !productImage.isEmpty()) {
 			try {
-				String path = "//home//javahero/workspace//develop/SpringMvc//SpringMvc//src//main//webapp//";
 					System.out.println(rootDirectory);
-					
-					productImage.transferTo(new File(rootDirectory + "resources//img//"+ updateProduct.getId() + ".png"));
+					productImage.transferTo(new File(rootDirectory + "resources//img//"+ updateProduct.getId() + ".jpg"));
 			}
 			catch (Exception e) { throw new RuntimeException("Product Image saving failed", e);
 			}

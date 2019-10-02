@@ -17,14 +17,14 @@ public class App {
 	public void setSessionUtil(SessionUtil sessionUtil) {
 		this.sessionUtil = sessionUtil;
 	}
-/*
+
 	public static void main(String[] args) {
 		SessionUtil instance = new SessionUtil();
 		System.out.println(123);
 		//App app = new App();
 		//app.start();
-		instance.updateHQLContact();
-	}*/
+		instance.getAllProductDetails1();
+	}
 
 	public  void start() {
 		System.out.println(124);
