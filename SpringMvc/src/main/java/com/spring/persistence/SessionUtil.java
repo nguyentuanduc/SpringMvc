@@ -14,6 +14,8 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Service;
 
 import com.spring.entity.Publish;
+import com.spring.entity.UserCustom;
+import com.spring.entity.Authorities;
 import com.spring.entity.Category;
 import com.spring.entity.Contact;
 import com.spring.entity.ContractTelDetail;
@@ -24,15 +26,16 @@ import com.spring.entity.Product;
 public class SessionUtil {
 
 	//private final static SessionUtil instance = new SessionUtil();
-	private static SessionFactory factory = getSessionFactory();
+	protected static SessionFactory factory = getSessionFactory();
 
+	private static List<UserCustom>  allUser = getAllUser();
 
 	public SessionUtil() {
 		System.out.println(" ----------------- SessionUtil");
 	}
 
 	public static SessionFactory getSessionFactory() {
-		System.out.println(" -----------------  SessionFactory");
+		System.out.println(" -----------------  getSessionFactory");
 		if(factory == null) {
 			StandardServiceRegistry standardRegistry = (StandardServiceRegistry) new StandardServiceRegistryBuilder().configure().build();
 			Metadata metadata = new MetadataSources(standardRegistry).getMetadataBuilder().build();
@@ -279,6 +282,61 @@ public class SessionUtil {
 				System.out.println();
 			}
 		}
+	}
+	
+	public static List<UserCustom> getAllUser(){
+		System.out.println("        getAllUser" );
+		Session session = factory.openSession();
+		Transaction tx = session.beginTransaction();
+
+		List<UserCustom> list = session.createQuery("from UserCustom u", UserCustom.class).list();
+
+		for (UserCustom a : list) {
+			System.out.println("        UserCustom" + a);
+		}
+		tx.commit();
+		session.close();
+		System.out.println("        getAllUser end" );
+		return list;
+	}
+	
+	public UserCustom findUserByUsername(String name) {
+		
+		/*UserCustom user = null;
+		List<UserCustom> list = allUser;
+
+		for (UserCustom userCustom : list) {
+			System.out.println("        UserCustom" + userCustom);
+			if(userCustom.getUsername().equals(name)) {
+				user = userCustom;
+				System.out.println("        findUserByUsername end" + userCustom);
+				break;
+			}
+		}
+
+		return user;*/
+		
+		Session session = factory.openSession();
+		Transaction tx = session.beginTransaction();
+		
+		System.out.println("        name" + name);
+		String sql = "from UserCustom u where username =:username";
+		Query<UserCustom> query = session.createQuery(sql, UserCustom.class);
+		query.setParameter("username", name);
+		System.out.println("        name 1" + name);
+		
+		UserCustom user = (UserCustom) query.uniqueResult();
+		System.out.println("        name 2" + name);
+		System.out.println("        user" + user);
+		if (user != null && user.getAuthorities() != null) {
+			Set<Authorities> authorities = user.getAuthorities();
+			for (Authorities a : authorities) {
+				System.out.println("        authority" + a);
+			}
+		}
+		tx.commit();
+		session.close();	
+		return user;
 	}
 	
 }

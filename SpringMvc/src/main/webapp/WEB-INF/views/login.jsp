@@ -42,12 +42,20 @@
                               <p>Access Denied: You are not authorised! </p>
                            </div>
                         </c:if>
-                        <div class="input-group input-sm"> <label class="input-group-addon" for="username"><i class="fa fa-user"></i></label> <input type="text" class="form-control" id="userId" name="userId" placeholder="Enter Username" required> </div>
+                        <div class="input-group input-sm"> <label class="input-group-addon" for="username"><i class="fa fa-user"></i></label> <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" required> </div>
                         <div class="input-group input-sm"> <label class="input-group-addon" for="password"><i class="fa fa-lock"></i></label> <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" required> </div>
                         <div class="form-actions"> <input type="submit" class="btn btn-block btn-primary btn-default" value="Log in"> </div>
+                       
                      </form>
                   </div>
                </div>
+            </div>
+            <div class="col-md-4 col-md-offset-4">
+                 <div class="panel panel-default">
+                      <div class="panel-heading">
+                            <h3 class="panel-title"><a href="/SpringMvc/auth/google">Sign in with Google</a></h3>
+                      </div>
+                 </div>
             </div>
          </div>
       </div>
