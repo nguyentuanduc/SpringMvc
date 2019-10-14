@@ -73,7 +73,7 @@ public class ProductController {
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         System.out.println(timestamp);
         //newProduct.setCreated(timestamp);
-		Product product = sessionUtil.addProduct(newProduct);
+		/*Product product = sessionUtil.addProduct(newProduct);
 		MultipartFile productImage = newProduct.getProductImage();
 		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
 		if (productImage!=null && !productImage.isEmpty()) {
@@ -87,7 +87,9 @@ public class ProductController {
 		}
 		
 		System.out.println(newProduct);
-		return "redirect:/product/all";
+		return "redirect:/product/all";*/
+        
+        return "addProduct";
 	}
 
 	//Products [id=0, name=null, description=null, unit_price=null,
@@ -169,13 +171,44 @@ public class ProductController {
 			sessionUtil.delete(product);
 			
 		}
-		return "redirect:/products";
+		return "redirect:/product/all";
+	}
+	
+	@RequestMapping("/product/limit")
+	public String getListProductBylimitTime(Model model,  HttpServletRequest request, @RequestParam("day") String day) {
+		//System.out.println("-----------------------------");
+		//sessionUtil.getProductById();
+		//System.out.println("-----------------------------");
+		System.out.println("getListProductBylimitTime");
+		String currentUserName = null;
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (!(authentication instanceof AnonymousAuthenticationToken)) {
+		    currentUserName = authentication.getName();
+		}
+		List<Product> list = null;
+		if(NumberUtils.isDigits(day)) {
+			int numberOfDay = Integer.parseInt(day);
+			list = sessionUtil.getListProductsByTime(numberOfDay);
+
+		}
+		
+		model.addAttribute("greeting","hello MVC");
+		
+		model.addAttribute("products",list);
+		
+		String path = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+		System.out.println("-----------------------------");
+		System.out.println(path);
+		System.out.println("-----------------------------");
+		model.addAttribute("path",path);
+		model.addAttribute("username",currentUserName);
+		return "products";
 	}
 	
 	@InitBinder
 	public void initialiseBinder(WebDataBinder binder) {
 		binder.setAllowedFields("id", "name", "unitPrice", "description", "manufacturer", "category",
-				"unitsInStock", "condition", "unitsInOrder", "discontinued", "productImage");
+				"unitsInStock", "condition", "unitsInOrder", "discontinued", "productImage", "listCategory");
 	}
 
 

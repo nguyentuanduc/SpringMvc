@@ -21,6 +21,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.authority.UserInformation;
+import com.spring.social.MySocialUserDetails;
 import com.spring.social.MyUserAccount;
 import com.spring.social.MyUserAccountDAO;
 import com.spring.social.MyUserAccountForm;
@@ -157,14 +158,22 @@ public class SocialController {
 	@RequestMapping(value = { "/userInfo" }, method = RequestMethod.GET)
 	public String userInfoPage(WebRequest request, Model model, HttpServletRequest httpServletRequest) {
 		logger.info("userInfoPage ");
-		UserInformation userInformation = (UserInformation) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		MyUserAccount userInfo = userInformation.getMyUserAccount();
-		logger.info("userInfo " + userInfo.getUserName());
+		Object object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String path = httpServletRequest.getScheme() + "://" + httpServletRequest.getServerName() + ":" + httpServletRequest.getServerPort() + httpServletRequest.getContextPath();
 		model.addAttribute("path",path);
 
-		model.addAttribute("userInfo",userInfo);
-
+		if (object instanceof UserInformation) {
+			UserInformation userInformation = (UserInformation) object;
+			MyUserAccount userInfo = userInformation.getMyUserAccount();
+			logger.info("UserInformation userInfo " + userInfo.getUserName());
+			model.addAttribute("userInfo",userInfo);
+		}
+		else if (object instanceof MySocialUserDetails) {
+			MySocialUserDetails myUserAccount = (MySocialUserDetails) object;
+			MyUserAccount userInfo = myUserAccount.getMyUserAccount();
+			logger.info("MySocialUserDetails userInfo " + userInfo.getUserName());
+			model.addAttribute("userInfo",userInfo);
+		}
 		return "social/userinfo_custom";
 	}
 

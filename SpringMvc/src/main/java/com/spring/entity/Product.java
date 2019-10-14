@@ -1,9 +1,10 @@
 package com.spring.entity;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -16,9 +17,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.PrePersist;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -71,9 +69,21 @@ public class Product {
 	@Transient
 	private MultipartFile productImage;
 	
-    
+	@Transient
+	private List<String> listCategory;
 	
 	
+	public List<String> getListCategory() {
+		return listCategory;
+	}
+
+	public void setListCategory(List<String> listCategory) {
+		if(this.listCategory == null){
+			this.listCategory = new ArrayList<String>();
+		}
+		this.listCategory = listCategory;
+	}
+
 	public Date getCreated() {
 		return created;
 	}
@@ -219,16 +229,18 @@ public class Product {
 		this.productImage = productImage;
 	}
 
-	
-
 	@Override
 	public String toString() {
 		return "Product [id=" + id + ", name=" + name + ", description=" + description + ", unitPrice=" + unitPrice
 				+ ", manufacturer=" + manufacturer + ", category=" + category + ", condition=" + condition
 				+ ", unitsInStock=" + unitsInStock + ", unitsInOrder=" + unitsInOrder + ", discontinued=" + discontinued
-				+ ", created=" + created + ", productImage=" + productImage + ", publishs=" + publishs + ", categorys="
-				+ categorys + "]";
+				+ ", created=" + created + ", updated=" + updated + ", productImage=" + productImage + ", listCategory="
+				+ listCategory + ", publishs=" + publishs + ", categorys=" + categorys + "]";
 	}
+
+	
+
+	
 
 	
 	

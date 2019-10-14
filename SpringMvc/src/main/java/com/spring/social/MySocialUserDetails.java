@@ -62,5 +62,16 @@ public class MySocialUserDetails implements SocialUserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+	public MyUserAccount getMyUserAccount() {
+		return myUserAccount;
+	}
+
+	public void setMyUserAccount(MyUserAccount myUserAccount) {
+		this.myUserAccount = myUserAccount;
+	}
  
+    
+    
+    
 }

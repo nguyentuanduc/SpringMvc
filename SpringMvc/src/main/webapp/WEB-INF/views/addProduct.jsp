@@ -89,6 +89,15 @@
                      </div>
                </div>
                <div class="form-group">
+                    <label class="control-label col-lg-2">
+                        list string
+                     </label>
+                        <div class="col-lg-10">
+                           <form:input id="data" path="listCategory" type="text" class="form:input-large" />
+                           <form:input id="data" path="listCategory" type="text" class="form:input-large" />
+				        </div>
+               </div>
+               <div class="form-group">
                   <div class="col-lg-offset-2 col-lg-10"> <input type="submit" id="btnAdd" class="btn btn-primary" value ="update"/> </div>
                </div>
             </fieldset>

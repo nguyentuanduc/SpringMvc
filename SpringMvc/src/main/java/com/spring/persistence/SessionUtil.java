@@ -1,5 +1,8 @@
 package com.spring.persistence;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -161,6 +164,18 @@ public class SessionUtil {
 	public Product addProduct(Product product) {
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
+		
+		Publish publish = new Publish();
+		publish.setName(product.getManufacturer());
+		/*Set<Publish> publishs = new HashSet<Publish>();
+		publishs.add(publish);*/
+		product.addPublish(publish);
+		
+		Set<Category> categorys = new HashSet<Category>();
+		Category category = new Category();
+		category.setCategory_id(product.getCategory());
+		categorys.add(category);
+		product.setCategorys(categorys);
 		session.save(product);
 		
 		System.out.println("-------------------");
@@ -337,6 +352,31 @@ public class SessionUtil {
 		tx.commit();
 		session.close();	
 		return user;
+	}
+	
+	
+	public List<Product> getListProductsByTime(int day) {
+		Session session = factory.openSession();
+		
+		long now = System.currentTimeMillis();
+		System.out.println("now " + now);
+		long nowMinus5Minutes = now - (day * 24L * 60L * 60L * 1000L);
+		Timestamp nowMinus5MinutesAsTimestamp = new Timestamp(nowMinus5Minutes);
+		System.out.println("nowMinus5MinutesAsTimestamp " + nowMinus5MinutesAsTimestamp);
+
+		Date start = new Date(nowMinus5Minutes);
+		System.out.println("start" + start);
+
+		Query<Product> query = session.createQuery("from products p where created > :start", Product.class);
+		query.setParameter("start", start);
+		List<Product> list = query.list();
+		if(list.size() > 0) {
+			for(Product c : list) {
+				System.out.println(c);
+			}
+		}
+		session.close();
+		return list;
 	}
 	
 }

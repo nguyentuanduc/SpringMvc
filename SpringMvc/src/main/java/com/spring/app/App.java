@@ -1,4 +1,4 @@
-package com.spring.app;
+/*package com.spring.app;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -31,3 +31,4 @@ public class App {
 		sessionUtil.listProducts();
 	}
 }
+*/
