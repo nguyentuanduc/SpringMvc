@@ -1,15 +1,14 @@
 package com.spring.entity;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -39,11 +38,11 @@ public class Product {
 	@Column(name = "unit_price")
 	private BigDecimal  unitPrice;
 	
-	@Column(name = "manufacturer")
+	/*@Column(name = "manufacturer")
 	private String manufacturer;
 	
 	@Column(name = "category")
-	private String category;
+	private String category;*/
 	
 	@Column(name = "condition_type")
 	private String condition;
@@ -70,18 +69,31 @@ public class Product {
 	private MultipartFile productImage;
 	
 	@Transient
-	private List<String> listCategory;
+	private Set<String> listCategory;
 	
+	@Transient
+	private Set<String> listPublish;
 	
-	public List<String> getListCategory() {
+	public Set<String> getListCategory() {
 		return listCategory;
 	}
 
-	public void setListCategory(List<String> listCategory) {
+	public void setListCategory(Set<String> listCategory) {
 		if(this.listCategory == null){
-			this.listCategory = new ArrayList<String>();
+			this.listCategory = new HashSet<String>();
 		}
 		this.listCategory = listCategory;
+	}
+	
+	public Set<String> getListPublish() {
+		return listPublish;
+	}
+
+	public void setListPublish(Set<String> listPublish) {
+		if(this.listPublish == null){
+			this.listPublish = new HashSet<String>();
+		}
+		this.listPublish = listPublish;
 	}
 
 	public Date getCreated() {
@@ -102,7 +114,7 @@ public class Product {
 
 
 
-	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval=true)
+	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval=true, fetch=FetchType.EAGER)
 	private Set<Publish> publishs = new HashSet<Publish>();
 	
 	@ManyToMany
@@ -169,22 +181,6 @@ public class Product {
 		this.unitPrice = unit_price;
 	}
 
-	public String getManufacturer() {
-		return manufacturer;
-	}
-
-	public void setManufacturer(String manufacturer) {
-		this.manufacturer = manufacturer;
-	}
-
-	public String getCategory() {
-		return category;
-	}
-
-	public void setCategory(String category) {
-		this.category = category;
-	}
-
 	public String getCondition() {
 		return condition;
 	}
@@ -232,18 +228,36 @@ public class Product {
 	@Override
 	public String toString() {
 		return "Product [id=" + id + ", name=" + name + ", description=" + description + ", unitPrice=" + unitPrice
-				+ ", manufacturer=" + manufacturer + ", category=" + category + ", condition=" + condition
+				+ ", condition=" + condition
 				+ ", unitsInStock=" + unitsInStock + ", unitsInOrder=" + unitsInOrder + ", discontinued=" + discontinued
 				+ ", created=" + created + ", updated=" + updated + ", productImage=" + productImage + ", listCategory="
-				+ listCategory + ", publishs=" + publishs + ", categorys=" + categorys + "]";
+				+ listCategory + ", listPublish="+ listPublish+ ", publishs=" + toStringPublishs() + ", categorys=" + toStringCategorys() + "]";
 	}
 
 	
-
+	public String toStringPublishs() {
+		String result = null;
+		if(publishs.size() > 0) {
+			for(Publish element : publishs) {
+				System.out.println(element);
+				result += element.toString();
+			}
+		}
+		return result;
+	}
 	
 
 	
-	
+	public String toStringCategorys() {
+		String result = null;
+		if(categorys.size() > 0) {
+			for(Category element : categorys) {
+				System.out.println(element);
+				result += element.toString();
+			}
+		}
+		return result;
+	}
 	
 	
 	

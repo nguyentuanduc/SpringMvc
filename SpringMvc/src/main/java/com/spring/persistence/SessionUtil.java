@@ -1,10 +1,18 @@
 package com.spring.persistence;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import com.spring.entity.Authorities;
+import com.spring.entity.Category;
+import com.spring.entity.Contact;
+import com.spring.entity.ContractTelDetail;
+import com.spring.entity.Hobby;
+import com.spring.entity.Product;
+import com.spring.entity.Publish;
+import com.spring.entity.UserCustom;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -15,15 +23,6 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Service;
-
-import com.spring.entity.Publish;
-import com.spring.entity.UserCustom;
-import com.spring.entity.Authorities;
-import com.spring.entity.Category;
-import com.spring.entity.Contact;
-import com.spring.entity.ContractTelDetail;
-import com.spring.entity.Hobby;
-import com.spring.entity.Product;
 
 @Service("sessionUtil")
 public class SessionUtil {
@@ -123,6 +122,20 @@ public class SessionUtil {
 		return instance;
 	}*/
 
+	public List<Category> listCategory() {
+		Session session = factory.openSession();
+		List<Category> list = session.createQuery("from category c", Category.class).list();
+
+		if(list.size() > 0) {
+			for(Category c : list) {
+				System.out.println(c);
+			}
+		}
+		session.close();
+		return list;
+	}
+	
+	
 	public List<Product> listProducts() {
 		Session session = factory.openSession();
 		List<Product> list = session.createQuery("from products p", Product.class).list();
@@ -150,14 +163,65 @@ public class SessionUtil {
 		return product;
 	}
 
+	public void removePublish(Product product) {
+		Session session = factory.openSession();
+		Transaction tx = session.beginTransaction();
+		System.out.println("---------removePublish----------");
+		
+		Set<Publish> publishs = new HashSet<Publish>(product.getPublishs());
+		for(Publish  element : publishs) {
+			product.removePublish(element);
+			element.setProduct(null);
+		}
+		Product productMerge = (Product) session.merge(product);
+		tx.commit();
+		System.out.println("---------removePublish---------- ----------------------- " + productMerge.getPublishs().size());
+		session.close();
+	}
+	
+	
 	public void updateProduct(Product product) {
+		removePublish(product);
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
 		System.out.println("---------updateProduct----------");
+		Set<String> listPublish = product.getListPublish();
+		// remove all
+		/*Set<Publish> publishs = product.getPublishs();
+		for(Publish  element : publishs) {
+			product.removePublish(element);
+		}*/
+		
+		System.out.println("---------updateProduct---------- 1 " + product.getPublishs().size());
+
+		if(listPublish != null) {
+			for(String  element : listPublish) {
+				Publish publish = new Publish();
+				publish.setName(element);
+				// set one to many
+				product.addPublish(publish);
+			}
+		}
+		System.out.println("---------updateProduct---------- 2 " + product.getPublishs().size());
+
+		Set<Category> categorys = new HashSet<Category>();
+		Set<String> listCategory = product.getListCategory();
+		if(listCategory != null) {
+			for(String  element : listCategory) {
+				Category category = new Category();
+				category.setCategory_id(element);
+				categorys.add(category);
+			}
+			// set many to many
+			product.setCategorys(categorys);
+		}
+		
+		
 		System.out.println(product);
 		System.out.println("---------updateProduct----------");
 		session.update(product);
 		tx.commit();
+		System.out.println("---------updateProduct---------- 3 " + product.getPublishs().size());
 		session.close();
 	}
 
@@ -165,16 +229,25 @@ public class SessionUtil {
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
 		
-		Publish publish = new Publish();
-		publish.setName(product.getManufacturer());
-		/*Set<Publish> publishs = new HashSet<Publish>();
-		publishs.add(publish);*/
-		product.addPublish(publish);
+		Set<String> listPublish = product.getListPublish();
+		
+		for(String  element : listPublish) {
+			Publish publish = new Publish();
+			publish.setName(element);
+			// set one to many
+			product.addPublish(publish);
+		}
 		
 		Set<Category> categorys = new HashSet<Category>();
-		Category category = new Category();
-		category.setCategory_id(product.getCategory());
-		categorys.add(category);
+		Set<String> listCategory = product.getListCategory();
+		
+		for(String  element : listCategory) {
+			Category category = new Category();
+			category.setCategory_id(element);
+			categorys.add(category);
+		}
+		
+		// set many to many
 		product.setCategorys(categorys);
 		session.save(product);
 		
@@ -235,13 +308,6 @@ public class SessionUtil {
 		if(list.size() > 0) {
 			for(Product c : list) {
 				System.out.println(c);
-				if(c.getCategory() != null) {
-					Set<Publish> category = c.getPublishs();
-					for(Publish detail : category) {
-						System.out.println(detail);
-					}
-				}
-				
 			}
 		}
 	}
@@ -360,21 +426,15 @@ public class SessionUtil {
 		
 		long now = System.currentTimeMillis();
 		System.out.println("now " + now);
-		long nowMinus5Minutes = now - (day * 24L * 60L * 60L * 1000L);
-		Timestamp nowMinus5MinutesAsTimestamp = new Timestamp(nowMinus5Minutes);
-		System.out.println("nowMinus5MinutesAsTimestamp " + nowMinus5MinutesAsTimestamp);
+		long startMillis = now - (day * 24L * 60L * 60L * 1000L);
 
-		Date start = new Date(nowMinus5Minutes);
+		Date start = new Date(startMillis);
 		System.out.println("start" + start);
 
 		Query<Product> query = session.createQuery("from products p where created > :start", Product.class);
 		query.setParameter("start", start);
 		List<Product> list = query.list();
-		if(list.size() > 0) {
-			for(Product c : list) {
-				System.out.println(c);
-			}
-		}
+		
 		session.close();
 		return list;
 	}

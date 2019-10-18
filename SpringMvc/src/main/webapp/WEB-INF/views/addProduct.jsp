@@ -22,37 +22,37 @@
             <fieldset>
                <legend>Add new product</legend>
                <div class="form-group">
-                  <label class="control-label col-lg-2" for="description">Name</label> 
+                  <label class="control-label col-lg-2" for="name">Name</label> 
                   <div class="col-lg-10">
                      <form:input id="name" path="name" type="text" class="form:input-large"/>
                   </div>
                </div>
                <div class="form-group">
-                  <label class="control-label col-lg-2" for="description">UnitPrice</label> 
+                  <label class="control-label col-lg-2" for="unitPrice">UnitPrice</label> 
                   <div class="col-lg-10">
                      <form:input id="unitPrice" path="unitPrice" type="text" class="form:input-large"/>
                   </div>
                </div>
-               <div class="form-group">
-                  <label class="control-label col-lg-2" for="description">Manufacturer</label> 
+               <%-- <div class="form-group">
+                  <label class="control-label col-lg-2" for="manufacturer">Manufacturer</label> 
                   <div class="col-lg-10">
                      <form:input id="manufacturer" path="manufacturer" type="text" class="form:input-large"/>
                   </div>
                </div>
                <div class="form-group">
-                  <label class="control-label col-lg-2" for="description">Category</label> 
+                  <label class="control-label col-lg-2" for="category">Category</label> 
                   <div class="col-lg-10">
                      <form:input id="category" path="category" type="text" class="form:input-large"/>
                   </div>
-               </div>
+               </div> --%>
                <div class="form-group">
-                  <label class="control-label col-lg-2" for="description">UnitsInStock</label> 
+                  <label class="control-label col-lg-2" for="unitsInStock">UnitsInStock</label> 
                   <div class="col-lg-10">
                      <form:input id="unitsInStock" path="unitsInStock" type="text" class="form:input-large" value="0"/>
                   </div>
                </div>
                <div class="form-group">
-                  <label class="control-label col-lg-2" for="description">UnitsInOrder</label> 
+                  <label class="control-label col-lg-2" for="unitsInOrder">UnitsInOrder</label> 
                   <div class="col-lg-10">
                      <form:input id="unitsInOrder" path="unitsInOrder" type="text" class="form:input-large" value="0"/>
                   </div>
@@ -90,15 +90,25 @@
                </div>
                <div class="form-group">
                     <label class="control-label col-lg-2">
-                        list string
-                     </label>
-                        <div class="col-lg-10">
-                           <form:input id="data" path="listCategory" type="text" class="form:input-large" />
-                           <form:input id="data" path="listCategory" type="text" class="form:input-large" />
-				        </div>
+                        Category (many)
+                    </label>
+                     <c:forEach items="${categorys}" var="category">
+				        <div class="col-lg-1">
+                             <form:checkbox path="listCategory" value="${category.category_id}"/> ${category.category_id}
+                        </div>
+                     </c:forEach>
+               </div>
+                <div class="form-group">
+                  <label class="control-label col-lg-2" for="listCategory">Publish</label> 
+                  <div class="col-lg-2">
+                     <form:input  path="listPublish" type="text" class="form:input-large"/>
+                  </div>
+                  <div class="col-lg-2">
+                     <form:input  path="listPublish" type="text" class="form:input-large"/>
+                  </div>
                </div>
                <div class="form-group">
-                  <div class="col-lg-offset-2 col-lg-10"> <input type="submit" id="btnAdd" class="btn btn-primary" value ="update"/> </div>
+                  <div class="col-lg-offset-2 col-lg-10"> <input type="submit" id="btnAdd" class="btn btn-primary" value ="  add  "/> </div>
                </div>
             </fieldset>
          </form:form>

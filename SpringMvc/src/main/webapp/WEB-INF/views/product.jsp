@@ -21,8 +21,16 @@
                     <p>${product.description}</p>
                     <p> <strong>Item Code : </strong><span class="label label warning">${product.id} </span>
                     </p>
-                    <p> <strong>manufacturer</strong> : ${product.manufacturer} </p>
-                    <p> <strong>category</strong> : ${product.category} </p>
+                    <p> <strong>Publish</strong> :
+	                     <c:forEach items="${product.publishs}" var="publish">
+	                       ${publish.name}
+	                     </c:forEach> 
+	                 </p>
+                    <p> <strong>Category</strong> : 
+                        <c:forEach items="${product.categorys}" var="category">
+                           <span class="btn btn-primary"> ${category.category_id}  </span>
+                         </c:forEach> 
+                    </p>
                     <p>
                         <strong>Availble units in stock </strong> : ${product.unitsInStock} </p>
                     <h4>${product.unitPrice} USD</h4>

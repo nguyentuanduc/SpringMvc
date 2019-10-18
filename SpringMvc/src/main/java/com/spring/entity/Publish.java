@@ -13,7 +13,7 @@ public class Publish {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "category_id")
+	@Column(name = "publish_id")
 	private int id;
 	
 	@Column(name = "name")
