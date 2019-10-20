@@ -30,7 +30,7 @@ public class SessionUtil {
 	//private final static SessionUtil instance = new SessionUtil();
 	protected static SessionFactory factory = getSessionFactory();
 
-	private static List<UserCustom>  allUser = getAllUser();
+	// private static List<UserCustom>  allUser = getAllUser();
 
 	public SessionUtil() {
 		System.out.println(" ----------------- SessionUtil");
@@ -135,6 +135,18 @@ public class SessionUtil {
 		return list;
 	}
 	
+	public List<UserCustom> listUser() {
+		Session session = factory.openSession();
+		List<UserCustom> list = session.createQuery("from UserCustom u", UserCustom.class).list();
+
+		if(list.size() > 0) {
+			for(UserCustom c : list) {
+				System.out.println(c);
+			}
+		}
+		session.close();
+		return list;
+	}
 	
 	public List<Product> listProducts() {
 		Session session = factory.openSession();
@@ -148,6 +160,20 @@ public class SessionUtil {
 		session.close();
 		return list;
 	}
+
+	public List<Product> listProductsDetail() {
+		Session session = factory.openSession();
+		List<Product> list = session.createQuery("select distinct p from products p left join fetch p.publishs t left join fetch p.categorys c", Product.class).list();
+
+		if(list.size() > 0) {
+			for(Product c : list) {
+				System.out.println(c);
+			}
+		}
+		session.close();
+		return list;
+	}
+
 
 	public Product getProductById(int id) {
 		Session session = factory.openSession();
@@ -231,20 +257,24 @@ public class SessionUtil {
 		
 		Set<String> listPublish = product.getListPublish();
 		
-		for(String  element : listPublish) {
-			Publish publish = new Publish();
-			publish.setName(element);
-			// set one to many
-			product.addPublish(publish);
+		if(listPublish != null){
+			for(String  element : listPublish) {
+				Publish publish = new Publish();
+				publish.setName(element);
+				// set one to many
+				product.addPublish(publish);
+			}
 		}
 		
 		Set<Category> categorys = new HashSet<Category>();
 		Set<String> listCategory = product.getListCategory();
 		
-		for(String  element : listCategory) {
-			Category category = new Category();
-			category.setCategory_id(element);
-			categorys.add(category);
+		if(listCategory != null){
+			for(String  element : listCategory) {
+				Category category = new Category();
+				category.setCategory_id(element);
+				categorys.add(category);
+			}
 		}
 		
 		// set many to many
@@ -365,7 +395,7 @@ public class SessionUtil {
 		}
 	}
 	
-	public static List<UserCustom> getAllUser(){
+	/*public static List<UserCustom> getAllUser(){
 		System.out.println("        getAllUser" );
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
@@ -379,7 +409,7 @@ public class SessionUtil {
 		session.close();
 		System.out.println("        getAllUser end" );
 		return list;
-	}
+	}*/
 	
 	public UserCustom findUserByUsername(String name) {
 		

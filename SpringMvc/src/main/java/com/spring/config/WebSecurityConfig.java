@@ -1,5 +1,7 @@
 package com.spring.config;
 
+import com.spring.authority.UserDetailsServiceImp;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -8,11 +10,9 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.social.security.SpringSocialConfigurer;
-import org.springframework.security.core.userdetails.UserDetailsService;
-
-import com.spring.authority.UserDetailsServiceImp;
 
 @Configuration
 @EnableWebSecurity
@@ -59,7 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.formLogin().defaultSuccessUrl("/product/all").failureUrl("/login?error");
 		
 		http.authorizeRequests()
-		.antMatchers("/resources/**", "/about", "/","/signup", "/login", "/logingoogle", "/login-google", "/user-google", "/admin-google", "/403").permitAll()
+		.antMatchers("/resources/**", "/about", "/","/signup", "/login", "/logingoogle", "/login-google", "/user-google", "/admin-google", "/403", "/rest/**").permitAll()
 		.antMatchers("/hello/**").access("hasRole('ROLE_ADMIN')")
 		.antMatchers("/product/**").access("hasRole('ROLE_USER')")
 		.antMatchers("/db/**").access("hasRole('ROLE_ADMIN') and hasRole('DBA')")

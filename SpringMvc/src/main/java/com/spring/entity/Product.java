@@ -18,6 +18,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.web.multipart.MultipartFile;
@@ -56,6 +58,9 @@ public class Product {
 	@Column(name = "discontinued", columnDefinition = "BIT", length = 1)
 	private Boolean discontinued;
 	
+	@Column(name = "disable", columnDefinition = "BIT", length = 1)
+	private Boolean disable;
+
 	@Column(name = "created", updatable = false)
 	@CreationTimestamp
 	private Date created;
@@ -112,15 +117,15 @@ public class Product {
 		this.updated = updated;
 	}
 
-
-
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval=true, fetch=FetchType.EAGER)
+	@JsonIgnore
 	private Set<Publish> publishs = new HashSet<Publish>();
 	
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "product_category_detail", 
 	joinColumns = @JoinColumn(name = "product_id"), 
 	inverseJoinColumns = @JoinColumn(name = "category_id"))
+	@JsonIgnore
 	private Set<Category> categorys = new HashSet<Category>();
 	
 	

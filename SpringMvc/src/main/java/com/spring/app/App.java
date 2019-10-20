@@ -39,7 +39,10 @@ public class App {
 		// sessionUtil.listProducts();
 		SessionUtil instance = new SessionUtil();
 
-		Product product = instance.getProductById(14);
+		instance.listUser();
+		
+		
+		/*Product product = instance.getProductById(14);
 		product.getPublishs().clear();
 
 		// Publish publish = new Publish();
@@ -51,7 +54,7 @@ public class App {
 
 		product.setListPublish(listPublish);
 		
-		instance.updateProduct(product);
+		instance.updateProduct(product);*/
 		
 	}
 }

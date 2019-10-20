@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity(name = "publish")
 public class Publish {
 
@@ -21,6 +23,7 @@ public class Publish {
 	
 	@ManyToOne
 	@JoinColumn(name = "product_id")
+	@JsonBackReference
 	private Product product;
 
 	public int getId() {
