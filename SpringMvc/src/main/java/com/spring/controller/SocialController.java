@@ -83,12 +83,6 @@ public class SocialController {
 		return "index";
 	}
 
-	/*@RequestMapping(value = { "/login" }, method = RequestMethod.GET)
-	public String welcomePage(Model model) {
-		logger.info("welcomePage ");
-		return "social/login";
-	}*/
-
 	// User login via Social,
 	// but not allow access basic info.
 	// webapp will redirect to /signin.
@@ -157,7 +151,7 @@ public class SocialController {
 
 	@RequestMapping(value = { "/userInfo" }, method = RequestMethod.GET)
 	public String userInfoPage(WebRequest request, Model model, HttpServletRequest httpServletRequest) {
-		logger.info("userInfoPage ");
+		logger.info("userInfoPage begin ");
 		Object object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String path = httpServletRequest.getScheme() + "://" + httpServletRequest.getServerName() + ":" + httpServletRequest.getServerPort() + httpServletRequest.getContextPath();
 		model.addAttribute("path",path);
@@ -174,6 +168,7 @@ public class SocialController {
 			logger.info("MySocialUserDetails userInfo " + userInfo.getUserName());
 			model.addAttribute("userInfo",userInfo);
 		}
+		logger.info("userInfoPage end ");
 		return "social/userinfo_custom";
 	}
 

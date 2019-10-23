@@ -25,12 +25,14 @@
                   <label class="control-label col-lg-2" for="name">Name</label> 
                   <div class="col-lg-10">
                      <form:input id="name" path="name" type="text" class="form:input-large"/>
+                     <form:errors path="name" cssClass="text-danger"/>
                   </div>
                </div>
                <div class="form-group">
                   <label class="control-label col-lg-2" for="unitPrice">UnitPrice</label> 
                   <div class="col-lg-10">
                      <form:input id="unitPrice" path="unitPrice" type="text" class="form:input-large"/>
+                     <form:errors path="unitPrice" cssClass="text-danger"/>
                   </div>
                </div>
                <%-- <div class="form-group">
@@ -48,19 +50,21 @@
                <div class="form-group">
                   <label class="control-label col-lg-2" for="unitsInStock">UnitsInStock</label> 
                   <div class="col-lg-10">
-                     <form:input id="unitsInStock" path="unitsInStock" type="text" class="form:input-large" value="0"/>
+                     <form:input id="unitsInStock" path="unitsInStock" type="text" class="form:input-large" value=""/>
+                     <form:errors path="unitsInStock" cssClass="text-danger"/>
                   </div>
                </div>
                <div class="form-group">
                   <label class="control-label col-lg-2" for="unitsInOrder">UnitsInOrder</label> 
                   <div class="col-lg-10">
-                     <form:input id="unitsInOrder" path="unitsInOrder" type="text" class="form:input-large" value="0"/>
+                     <form:input id="unitsInOrder" path="unitsInOrder" type="text" class="form:input-large" value=""/>
                   </div>
                </div>
                <div class="form-group">
                   <label class="control-label col-lg-2" for="description">Description</label> 
                   <div class="col-lg-10">
                      <form:textarea id="description" path="description" rows = "2"/>
+                     <form:errors path="description" cssClass="text-danger"/>
                   </div>
                </div>
                <div class="form-group">
@@ -102,9 +106,11 @@
                   <label class="control-label col-lg-2" for="listCategory">Publish</label> 
                   <div class="col-lg-2">
                      <form:input  path="listPublish" type="text" class="form:input-large"/>
+                     <form:errors path="listPublish" cssClass="text-danger"/>
                   </div>
                   <div class="col-lg-2">
                      <form:input  path="listPublish" type="text" class="form:input-large"/>
+                     <form:errors path="listPublish" cssClass="text-danger"/>
                   </div>
                </div>
                <div class="form-group">

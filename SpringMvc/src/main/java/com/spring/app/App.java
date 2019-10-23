@@ -38,8 +38,11 @@ public class App {
 		System.out.println(124);
 		// sessionUtil.listProducts();
 		SessionUtil instance = new SessionUtil();
-
-		instance.listUser();
+		Product product = new Product();
+		product.setCondition("new");
+		System.out.println(product);
+		Product result = instance.addProduct(product);
+		System.out.println(result);
 		
 		
 		/*Product product = instance.getProductById(14);

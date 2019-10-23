@@ -13,7 +13,7 @@
 		<div class="jumbotron">
 			<div class="container">
 				<h1>Products</h1>
-				<p>Add products</p>
+				<p>Update products</p>
 			</div>
 		</div>
 	</section>
@@ -30,46 +30,35 @@
 					</div>
 					<div class="col-lg-10">
 						<form:input id="name" path="name" type="text"
-							class="form:input-large" />
+							class="form:input-large" maxlength="30"/>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-lg-2" for="description">UnitPrice</label>
 					<div class="col-lg-10">
-						<form:input id="unitPrice" path="unitPrice" type="text"
+						<form:input id="unitPrice" path="unitPrice" type="text" maxlength="4"
 							class="form:input-large" />
 					</div>
 				</div>
-				<%-- <div class="form-group">
-                  <label class="control-label col-lg-2" for="description">Manufacturer</label> 
-                  <div class="col-lg-10">
-                     <form:input id="manufacturer" path="manufacturer" type="text" class="form:input-large"/>
-                  </div>
-               </div>
-               <div class="form-group">
-                  <label class="control-label col-lg-2" for="description">Category</label> 
-                  <div class="col-lg-10">
-                     <form:input id="category" path="category" type="text" class="form:input-large"/>
-                  </div>
-               </div> --%>
+			
 				<div class="form-group">
 					<label class="control-label col-lg-2" for="description">UnitsInStock</label>
 					<div class="col-lg-10">
-						<form:input id="unitsInStock" path="unitsInStock" type="text"
+						<form:input id="unitsInStock" path="unitsInStock" type="text" maxlength="4"
 							class="form:input-large" value="" />
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-lg-2" for="description">UnitsInOrder</label>
 					<div class="col-lg-10">
-						<form:input id="unitsInOrder" path="unitsInOrder" type="text"
+						<form:input id="unitsInOrder" path="unitsInOrder" type="text" maxlength="4"
 							class="form:input-large" value="" />
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-lg-2" for="description">Description</label>
 					<div class="col-lg-10">
-						<form:textarea id="description" path="description" rows="2" />
+						<form:textarea id="description" path="description" rows="2" maxlength="300"/> />
 					</div>
 				</div>
 				<div class="form-group">
@@ -122,7 +111,7 @@
                     <label class="control-label col-lg-2" for="publishs">Publish</label>
                     <c:forEach items="${updateProduct.publishs}" var="publish">
                             <div class="col-lg-2">
-                     <form:input  path="listPublish" type="text" class="form:input-large" value="${publish.name}"/>
+                     <form:input  path="listPublish" type="text" class="form:input-large" value="${publish.name}" maxlength="30"/>
 				  </div>
                          </c:forEach>
 			  
@@ -157,17 +146,46 @@ marginLeft:0},function(){return a.getBoundingClientRect().left}):0))+"px":void 0
 padding:"inner"+a,content:b,"":"outer"+a},function(c,d){n.fn[d]=function(d,e){var f=arguments.length&&(c||"boolean"!=typeof d),g=c||(d===!0||e===!0?"margin":"border");return Y(this,function(b,c,d){var e;return n.isWindow(b)?b.document.documentElement["client"+a]:9===b.nodeType?(e=b.documentElement,Math.max(b.body["scroll"+a],e["scroll"+a],b.body["offset"+a],e["offset"+a],e["client"+a])):void 0===d?n.css(b,c,g):n.style(b,c,d,g)},b,f?d:void 0,f,null)}})}),n.fn.extend({bind:function(a,b,c){return this.on(a,null,b,c)},unbind:function(a,b){return this.off(a,null,b)},delegate:function(a,b,c,d){return this.on(b,a,c,d)},undelegate:function(a,b,c){return 1===arguments.length?this.off(a,"**"):this.off(b,a||"**",c)}}),n.fn.size=function(){return this.length},n.fn.andSelf=n.fn.addBack,"function"==typeof define&&define.amd&&define("jquery",[],function(){return n});var nc=a.jQuery,oc=a.$;return n.noConflict=function(b){return a.$===n&&(a.$=oc),b&&a.jQuery===n&&(a.jQuery=nc),n},b||(a.jQuery=a.$=n),n});
 
       </script>
-      <script type="text/javascript">
+	  <script type="text/javascript">
       $( document ).ready(function() {
-    	  console.log(123);
+
     	  $('#btnRemovePublish').click(function(){
     		  $('#publishs input').last().remove();
     		});
     	  
 		 $('#btnAddPublish').click(function(){
-			$('#publishs').append('<input name="listPublish" type="text" class="form:input-large" value=""/>');
+			$('#publishs').append('<input name="listPublish" type="text" class="form:input-large" value="" maxlength="30"/>');
 		 });
+
+		 $( "#unitPrice" ).keypress(function() {
+			var e = window.event;
+			return isNumber(e);
+		});
+		
+		$( "#unitsInStock" ).keypress(function() {
+			var e = window.event;
+			return isNumber(e);
+		});
+
+		$( "#unitsInOrder" ).keypress(function() {
+			var e = window.event;
+			return isNumber(e);
+		});
+
+		// allow nuber only
+		function isNumber(evt) {
+			evt = (evt) ? evt : window.event;
+			var charCode = (evt.which) ? evt.which : evt.keyCode;
+			if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+				return false;
+			}
+			return true;
+		}
       });
+
+
+	  
+
 
       </script>
 </body>

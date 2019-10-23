@@ -6,10 +6,13 @@
 	<session-config>
 		<session-timeout>5</session-timeout>
 	</session-config>
-	 <error-page>
+	<!--  <error-page>
         <error-code>404</error-code>
         <location>/WEB-INF/view/common/errorPage.jsp</location>
-    </error-page>
+    </error-page> -->
+    <error-page>
+	    <location>/errors</location>
+	</error-page>
 </web-app>
 
 

@@ -66,7 +66,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.anyRequest().authenticated()
 		.and().formLogin();
 		
-		http.exceptionHandling().accessDeniedPage("/about");
+		http.exceptionHandling().accessDeniedPage("/deny");
 		http.logout().logoutSuccessUrl("/login?logout");
 		
 		http.apply(new SpringSocialConfigurer()).signupUrl("/signup");

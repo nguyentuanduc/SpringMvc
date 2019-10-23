@@ -12,7 +12,6 @@ import javax.sql.DataSource;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -23,7 +22,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.authority.UserInformation;
-import com.spring.entity.Authorities;
 
 @Repository
 @Transactional
@@ -37,6 +35,8 @@ public class MyUserAccountDAO extends JdbcDaoSupport {
 	}
 
 	public MyUserAccount findById(String id) {
+		logger.info("findById  begin");
+		logger.info("findById  id " + id);
 		String sql = "Select id,email,user_name, first_name,last_name,"//
 				+ " password,role"//
 				+ " from User_Accounts u "//
@@ -45,6 +45,7 @@ public class MyUserAccountDAO extends JdbcDaoSupport {
 		MyUserAccountMapper mapper = new MyUserAccountMapper();
 		try {
 			MyUserAccount userInfo = this.getJdbcTemplate().queryForObject(sql, params, mapper);
+			logger.info("findById  end");
 			return userInfo;
 		} catch (EmptyResultDataAccessException e) {
 			return null;
@@ -82,6 +83,7 @@ public class MyUserAccountDAO extends JdbcDaoSupport {
 	}
 
 	public MyUserAccount registerNewUserAccount(MyUserAccountForm accountForm) {
+		logger.info("registerNewUserAccount  begin");
 		String sql = "Insert into User_Accounts "//
 				+ " (id, email,user_name,first_name,last_name,password,role) "//
 				+ " values (?,?,?,?,?,?,?) ";
@@ -93,12 +95,13 @@ public class MyUserAccountDAO extends JdbcDaoSupport {
 				accountForm.getUserName(), //
 				accountForm.getFirstName(), accountForm.getLastName(), //
 				accountForm.getPassword(), MyUserAccount.ROLE_USER);
+		logger.info("registerNewUserAccount  end");
 		return findById(id);
 	}
 
 	// Auto Create USER_ACCOUNTS.
 	public MyUserAccount createUserAccount(Connection<?> connection) {
-
+		
 		ConnectionKey key = connection.getKey();
 		// (facebook,12345), (google,123) ...
 
@@ -147,18 +150,15 @@ public class MyUserAccountDAO extends JdbcDaoSupport {
 	}
 
 	public UserInformation findUserByUsername(String userName) {
+		logger.info("findUserByUsername  begin");
+		logger.info("findUserByUsername  userName " + userName);
 		String sql = "Select id, email,user_name,first_name,last_name,"//
 				+ " password"//
 				+ " from user u "//
 				+ " where user_name = ? ";
-		System.out.println(" ----------user--------------------  loadUserByUsername");
 
 		Object[] params = new Object[] { userName };
 		MyUserAccountMapper mapper = new MyUserAccountMapper();
-		
-		
-		
-
 		
 		try {
 			MyUserAccount userInfo = this.getJdbcTemplate().queryForObject(sql, params, mapper);
@@ -173,10 +173,10 @@ public class MyUserAccountDAO extends JdbcDaoSupport {
 	        }
 	        List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>(setAuths);
 	        UserInformation user=  new UserInformation(userInfo.getUserName(), userInfo.getPassword(), true, true, true, true, grantedAuthorities, userInfo);
+	        logger.info("findUserByUsername  end");
 	        return user;
 	       
 		} catch (EmptyResultDataAccessException e) {
-			System.out.println(" ----------user---------" + e.toString());
 			return null;
 		}
 	}

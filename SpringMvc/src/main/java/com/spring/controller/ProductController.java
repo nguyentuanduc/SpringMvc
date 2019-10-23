@@ -1,18 +1,19 @@
 package com.spring.controller;
 
 import java.io.File;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import com.spring.entity.Category;
 import com.spring.entity.Product;
 import com.spring.persistence.SessionUtil;
 
 import org.apache.commons.lang.math.NumberUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -33,15 +34,12 @@ public class ProductController {
 
 	@Autowired
 	public  SessionUtil sessionUtil;
-
 	
+	private static final Logger logger = Logger.getLogger(ProductController.class);
 	
 	@RequestMapping("/product/all")
 	public String list(Model model,  HttpServletRequest request) {
-		//System.out.println("-----------------------------");
-		//sessionUtil.getProductById();
-		//System.out.println("-----------------------------");
-		System.out.println("products");
+		logger.info("list begin ");
 		String currentUserName = null;
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (!(authentication instanceof AnonymousAuthenticationToken)) {
@@ -50,33 +48,38 @@ public class ProductController {
 		
 		List<Product> list = sessionUtil.listProducts();
 		model.addAttribute("greeting","hello MVC");
-		
 		model.addAttribute("products",list);
 		
 		String path = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
-		System.out.println("-----------------------------");
-		System.out.println(path);
-		System.out.println("-----------------------------");
 		model.addAttribute("path",path);
 		model.addAttribute("username",currentUserName);
+		logger.info("list end ");
+
 		return "products";
 	}
 
 	@RequestMapping(value ="/product/add", method = RequestMethod.GET)
 	public String getAddNewProductForm(Model model) {
+		logger.info("getAddNewProductForm begin ");
 		Product product = new Product();
 		List<Category> categorys = sessionUtil.listCategory();
 		model.addAttribute("newProduct", product);
+		logger.info("newProduct  " + product.toString());
 		model.addAttribute("categorys", categorys);
+		logger.info("getAddNewProductForm end ");
+
 		return "addProduct";
 	}
 
 	@RequestMapping(value ="/product/add", method = RequestMethod.POST)
-	public String processAddNewProductForm(@ModelAttribute("newProduct") Product newProduct, BindingResult result, HttpServletRequest request) {
-		System.out.println(newProduct);
-		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        System.out.println(timestamp);
-        //newProduct.setCreated(timestamp);
+	public String processAddNewProductForm(@ModelAttribute("newProduct") @Valid Product newProduct, BindingResult result, HttpServletRequest request) {
+		logger.info("processAddNewProductForm begin ");
+		logger.info("newProduct begin " + newProduct.toString());
+		if(result.hasErrors()) {
+			return "addProduct";
+		}
+		logger.info("newProduct" + newProduct.toString());
+
 		Product product = sessionUtil.addProduct(newProduct);
 		MultipartFile productImage = newProduct.getProductImage();
 		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
@@ -90,18 +93,14 @@ public class ProductController {
 		}
 		
 		System.out.println(newProduct);
+		logger.info("processAddNewProductForm end ");
 		return "redirect:/product/all";
 	}
 
-	//Products [id=0, name=null, description=null, unit_price=null,
-	//manufacturer=null, category=null, condition=null, unitsInStock=0, unitsInOrder=0, discontinued=null]
-
 	@RequestMapping(value ="/remove", method = RequestMethod.GET)
 	public String removeProductPublish(Model model,  HttpServletRequest request, @RequestParam("id") String producId) {
+		logger.info("removeProductPublish begin ");
 		String path = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
-		System.out.println("-----------------------------");
-		System.out.println(path);
-		System.out.println("-----------------------------");
 		model.addAttribute("path",path);
 		Product product = null;
 		if(NumberUtils.isDigits(producId)) {
@@ -110,7 +109,7 @@ public class ProductController {
 			sessionUtil.removePublish(product);
 			model.addAttribute("product",product);
 		}
-		
+		logger.info("removeProductPublish end ");
 		return "product";
 	}
 
@@ -118,10 +117,8 @@ public class ProductController {
 
 	@RequestMapping(value ="/product", method = RequestMethod.GET)
 	public String getProductById(Model model,  HttpServletRequest request, @RequestParam("id") String producId) {
+		logger.info("getProductById begin ");
 		String path = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
-		System.out.println("-----------------------------");
-		System.out.println(path);
-		System.out.println("-----------------------------");
 		model.addAttribute("path",path);
 		Product product = null;
 		if(NumberUtils.isDigits(producId)) {
@@ -130,16 +127,15 @@ public class ProductController {
 			model.addAttribute("product",product);
 		}
 		
+		logger.info("getProductById end ");
 		return "product";
 	}
 
 	@RequestMapping(value ="/product/update", method = RequestMethod.GET)
 	public String update(Model model,  HttpServletRequest request, @RequestParam("id") String producId) {
+		logger.info("update get begin ");
 		String path = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
 
-		System.out.println("-----------------------------");
-		System.out.println(path);
-		System.out.println("-----------------------------");
 		model.addAttribute("path",path);
 		Product product = null;
 		if(NumberUtils.isDigits(producId)) {
@@ -149,39 +145,33 @@ public class ProductController {
 			Set<Category> setCategorys = product.getCategorys();
 			List<Category> filterCategorys = new ArrayList<Category>();
 			filterCategorys.addAll(listCategorys);
-			/*
-			Set<Category> SetConvertCategorys = new HashSet<Category>();
-			listCattegorys.addAll(legorys.addAll();*/
+			
 			
 			for(Category element_set : setCategorys) {
 				for(Category element_list : listCategorys) {
 					if(element_set.getCategory_id().equals(element_list.getCategory_id())) {
-					System.out.println("-------------element---------------- " + element_list);
 					filterCategorys.remove(element_list);
 					}
 				}
 			}
 			
 			model.addAttribute("filterCategorys", filterCategorys);
-			System.out.println("-------------setCategorys---------------- " + listCategorys.size());
 			model.addAttribute("owncategorys", setCategorys);
 		}
-		System.out.println("-------------getCategorys---------------- " + product.getCategorys());
+
 		model.addAttribute("updateProduct", product);
+		logger.info("updateProduct  "+ product.toString());
+		logger.info("update end ");
+
 		return "updateProduct";
 	}
 	
 	@RequestMapping(value ="/product/update", method = RequestMethod.POST)
 	public String processUpdateProductForm(Model model,@ModelAttribute("updateProduct") Product updateProduct, BindingResult result, HttpServletRequest request) {
-		String path1 = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
-		System.out.println("-----------------------------");
-		System.out.println(path1);
-		System.out.println("-----------------------------");
-		
-		model.addAttribute("path",path1);
-		System.out.println("-----------------------------");
-		System.out.println(updateProduct);
-		System.out.println("-----------------------------");
+		logger.info("processUpdateProductForm begin ");
+		logger.info("updateProduct " + updateProduct.toString());
+		String path = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+		model.addAttribute("path",path);
 
 		sessionUtil.updateProduct(updateProduct);
 		MultipartFile productImage = updateProduct.getProductImage();
@@ -197,34 +187,31 @@ public class ProductController {
 		int id = updateProduct.getId();
 		Product product = sessionUtil.getProductById(id);
 		model.addAttribute("product",product);
-		System.out.println(updateProduct);
+		logger.info("processUpdateProductForm end ");
 		return "product";
 	}
 	
 	
 	@RequestMapping(value ="/product/delete", method = RequestMethod.GET)
 	public String delete(Model model,  HttpServletRequest request, @RequestParam("id") String producId) {
+		logger.info("delete begin ");
+		logger.info("delete  producId " + producId);
 		String path = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
-		System.out.println("-----------------------------");
-		System.out.println(path);
-		System.out.println("-----------------------------");
 		model.addAttribute("path",path);
 		Product product = null;
 		if(NumberUtils.isDigits(producId)) {
 			int id = Integer.parseInt(producId);
 			product = sessionUtil.getProductById(id);
 			sessionUtil.delete(product);
-			
 		}
+		logger.info("delete begin ");
 		return "redirect:/product/all";
 	}
 	
 	@RequestMapping("/product/limit")
 	public String getListProductBylimitTime(Model model,  HttpServletRequest request, @RequestParam("day") String day) {
-		//System.out.println("-----------------------------");
-		//sessionUtil.getProductById();
-		//System.out.println("-----------------------------");
-		System.out.println("getListProductBylimitTime");
+		logger.info("getListProductBylimitTime begin ");
+		logger.info("day  " + day);
 		String currentUserName = null;
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (!(authentication instanceof AnonymousAuthenticationToken)) {
@@ -237,15 +224,11 @@ public class ProductController {
 		}
 		
 		model.addAttribute("greeting","hello MVC");
-		
 		model.addAttribute("products",list);
-		
 		String path = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
-		System.out.println("-----------------------------");
-		System.out.println(path);
-		System.out.println("-----------------------------");
 		model.addAttribute("path",path);
 		model.addAttribute("username",currentUserName);
+		logger.info("getListProductBylimitTime end ");
 		return "products";
 	}
 	

@@ -17,6 +17,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -31,27 +34,31 @@ public class Product {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
+	@NotNull( message="{NotNull.Product.name.validation}")
+	@Size(min = 1, max = 30, message="{Size.Product.name.validation}")
 	@Column(name = "name")
 	private String name;
 	
+	@Size(min = 1, max = 300, message="{Size.Product.description.validation}")
 	@Column(name = "description")
 	private String description;
 	
+	@NotNull( message="{NotNull.Product.unitPrice.validation}")
+	@Digits(integer = 4, fraction = 2, message="{Digits.Product.unitPrice.validation}")
 	@Column(name = "unit_price")
 	private BigDecimal  unitPrice;
 	
-	/*@Column(name = "manufacturer")
-	private String manufacturer;
-	
-	@Column(name = "category")
-	private String category;*/
-	
+	@Size(min = 3, max = 10, message="{Size.Product.condition.validation}")
 	@Column(name = "condition_type")
 	private String condition;
 	
+	@NotNull( message="{NotNull.Product.unitsInStock.validation}")
+	@Digits(integer = 4, fraction = 2, message="{Digits.Product.unitsInStock.validation}")
 	@Column(name = "units_in_stock")
 	private long unitsInStock;
 	
+	@NotNull( message="{NotNull.Product.unitsInOrder.validation}")
+	@Digits(integer = 4, fraction = 2, message="{Digits.Product.unitsInOrder.validation}")
 	@Column(name = "units_in_order")
 	private long unitsInOrder;
 	
@@ -59,7 +66,7 @@ public class Product {
 	private Boolean discontinued;
 	
 	@Column(name = "disable", columnDefinition = "BIT", length = 1)
-	private Boolean disable;
+	private Boolean disable = false;
 
 	@Column(name = "created", updatable = false)
 	@CreationTimestamp
@@ -230,6 +237,8 @@ public class Product {
 		this.productImage = productImage;
 	}
 
+
+	
 	@Override
 	public String toString() {
 		return "Product [id=" + id + ", name=" + name + ", description=" + description + ", unitPrice=" + unitPrice
@@ -262,6 +271,14 @@ public class Product {
 			}
 		}
 		return result;
+	}
+
+	public Boolean getDisable() {
+		return disable;
+	}
+
+	public void setDisable(Boolean disable) {
+		this.disable = disable;
 	}
 	
 	
