@@ -44,7 +44,7 @@ public class Product {
 	private String description;
 	
 	@NotNull( message="{NotNull.Product.unitPrice.validation}")
-	@Digits(integer = 4, fraction = 2, message="{Digits.Product.unitPrice.validation}")
+	@Digits(integer = 4, fraction = 0, message="{Digits.Product.unitPrice.validation}")
 	@Column(name = "unit_price")
 	private BigDecimal  unitPrice;
 	
@@ -53,12 +53,12 @@ public class Product {
 	private String condition;
 	
 	@NotNull( message="{NotNull.Product.unitsInStock.validation}")
-	@Digits(integer = 4, fraction = 2, message="{Digits.Product.unitsInStock.validation}")
+	@Digits(integer = 4, fraction = 0, message="{Digits.Product.unitsInStock.validation}")
 	@Column(name = "units_in_stock")
 	private long unitsInStock;
 	
 	@NotNull( message="{NotNull.Product.unitsInOrder.validation}")
-	@Digits(integer = 4, fraction = 2, message="{Digits.Product.unitsInOrder.validation}")
+	@Digits(integer = 4, fraction = 0, message="{Digits.Product.unitsInOrder.validation}")
 	@Column(name = "units_in_order")
 	private long unitsInOrder;
 	

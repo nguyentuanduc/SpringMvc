@@ -72,10 +72,12 @@ public class ProductController {
 	}
 
 	@RequestMapping(value ="/product/add", method = RequestMethod.POST)
-	public String processAddNewProductForm(@ModelAttribute("newProduct") @Valid Product newProduct, BindingResult result, HttpServletRequest request) {
+	public String processAddNewProductForm(@ModelAttribute("newProduct") @Valid Product newProduct, BindingResult result, HttpServletRequest request, Model model) {
 		logger.info("processAddNewProductForm begin ");
 		logger.info("newProduct begin " + newProduct.toString());
 		if(result.hasErrors()) {
+			List<Category> categorys = sessionUtil.listCategory();
+			model.addAttribute("categorys", categorys);
 			return "addProduct";
 		}
 		logger.info("newProduct" + newProduct.toString());

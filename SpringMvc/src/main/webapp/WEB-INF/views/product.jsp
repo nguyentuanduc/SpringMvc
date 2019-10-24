@@ -18,7 +18,7 @@
             <div class="row">
                 <div class="col-md-5">
                     <h3>${product.name}</h3>
-                    <p>${product.description}</p>
+                    <p><strong>Description</strong> : ${product.description}</p>
                     <p> <strong>Item Code : </strong><span class="label label warning">${product.id} </span>
                     </p>
                     <p> <strong>Publish</strong> :
@@ -32,8 +32,8 @@
                          </c:forEach> 
                     </p>
                     <p>
-                        <strong>Availble units in stock </strong> : ${product.unitsInStock} </p>
-                    <h4>${product.unitPrice} USD</h4>
+                        <strong>Available units in stock </strong> : ${product.unitsInStock} </p>
+                    <h4> <strong>Unit Price</strong> : ${product.unitPrice} USD</h4>
                     <p>
                         <a href="#" class="btn btn-warning btn-large"> <span class="glyphicon-shopping-cart glyphicon"> </span> Order Now </a>
                     </p>
