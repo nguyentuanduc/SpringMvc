@@ -31,6 +31,7 @@
 					<div class="col-lg-10">
 						<form:input id="name" path="name" type="text"
 							class="form:input-large" maxlength="30"/>
+							<form:errors path="name" cssClass="text-danger"/>
 					</div>
 				</div>
 				<div class="form-group">
@@ -38,6 +39,7 @@
 					<div class="col-lg-10">
 						<form:input id="unitPrice" path="unitPrice" type="text" maxlength="4"
 							class="form:input-large" />
+							<form:errors path="unitPrice" cssClass="text-danger"/>
 					</div>
 				</div>
 			
@@ -46,6 +48,7 @@
 					<div class="col-lg-10">
 						<form:input id="unitsInStock" path="unitsInStock" type="text" maxlength="4"
 							class="form:input-large" value="" />
+							<form:errors path="unitsInStock" cssClass="text-danger"/>
 					</div>
 				</div>
 				<div class="form-group">
@@ -53,12 +56,14 @@
 					<div class="col-lg-10">
 						<form:input id="unitsInOrder" path="unitsInOrder" type="text" maxlength="4"
 							class="form:input-large" value="" />
+						<form:errors path="unitsInOrder" cssClass="text-danger"/>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-lg-2" for="description">Description</label>
 					<div class="col-lg-10">
-						<form:textarea id="description" path="description" rows="2" maxlength="300"/> />
+						<form:textarea id="description" path="description" rows="2" maxlength="300"/>
+						<form:errors path="description" cssClass="text-danger"/>
 					</div>
 				</div>
 				<div class="form-group">
@@ -108,15 +113,19 @@
 				</div>
 				<div id="publishs" class="form-group">
 				
-                    <label class="control-label col-lg-2" for="publishs">Publish</label>
+					<label class="control-label col-lg-2" for="publishs">Publish</label>
                     <c:forEach items="${updateProduct.publishs}" var="publish">
                             <div class="col-lg-2">
-                     <form:input  path="listPublish" type="text" class="form:input-large" value="${publish.name}" maxlength="30"/>
+					 <form:input  path="listPublish" type="text" class="form:input-large" value="${publish.name}" maxlength="30"/>
+				  </div>
+						 </c:forEach>
+					<c:forEach items="${updateProduct.listPublish}" var="publish">
+                            <div class="col-lg-2">
+					 <form:input  path="listPublish" type="text" class="form:input-large" value="${publish}" maxlength="30"/>
 				  </div>
                          </c:forEach>
-			  
                 </div>
-				<p>
+				
 				<div class="form-group">
                     <div class="col-lg-offset-2 col-lg-1">
                         <input type="button" id="btnRemovePublish" class="btn btn-warning"
@@ -154,7 +163,7 @@ padding:"inner"+a,content:b,"":"outer"+a},function(c,d){n.fn[d]=function(d,e){va
     		});
     	  
 		 $('#btnAddPublish').click(function(){
-			$('#publishs').append('<input name="listPublish" type="text" class="form:input-large" value="" maxlength="30"/>');
+			$('#publishs').append('<div class="col-lg-2"><input name="listPublish" type="text" class="form:input-large" value="" maxlength="30"/> </div>');
 		 });
 
 		 $( "#unitPrice" ).keypress(function() {

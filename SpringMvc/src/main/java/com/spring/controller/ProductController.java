@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.HashSet;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -11,6 +12,7 @@ import javax.validation.Valid;
 import com.spring.entity.Category;
 import com.spring.entity.Product;
 import com.spring.persistence.SessionUtil;
+import com.spring.entity.Publish;
 
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
@@ -148,17 +150,16 @@ public class ProductController {
 			List<Category> filterCategorys = new ArrayList<Category>();
 			filterCategorys.addAll(listCategorys);
 			
-			
 			for(Category element_set : setCategorys) {
 				for(Category element_list : listCategorys) {
 					if(element_set.getCategory_id().equals(element_list.getCategory_id())) {
-					filterCategorys.remove(element_list);
+						filterCategorys.remove(element_list);
 					}
 				}
 			}
 			
 			model.addAttribute("filterCategorys", filterCategorys);
-			model.addAttribute("owncategorys", setCategorys);
+			// model.addAttribute("owncategorys", setCategorys);
 		}
 
 		model.addAttribute("updateProduct", product);
@@ -169,9 +170,33 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value ="/product/update", method = RequestMethod.POST)
-	public String processUpdateProductForm(Model model,@ModelAttribute("updateProduct") Product updateProduct, BindingResult result, HttpServletRequest request) {
+	public String processUpdateProductForm(Model model,@ModelAttribute("updateProduct")  @Valid Product updateProduct, BindingResult result, HttpServletRequest request) {
 		logger.info("processUpdateProductForm begin ");
 		logger.info("updateProduct " + updateProduct.toString());
+		if(result.hasErrors()) {
+
+			Set<Category> categorys = new HashSet<Category>();	
+			List<Category> listCategorys = sessionUtil.listCategory();
+			Set<String> setCategorys = updateProduct.getListCategory();
+			List<Category> filterCategorys = new ArrayList<Category>();
+			
+			for(String element : setCategorys) {
+				for(Category category : listCategorys) {
+					if(element.equals(category.getCategory_id())) {
+						categorys.add(category);
+					}
+					else {
+						filterCategorys.add(category);
+					}
+				}
+			}
+			updateProduct.setCategorys(categorys);
+			logger.info("updateProduct " + updateProduct.toString());
+			model.addAttribute("categorys ", categorys.size());
+			logger.info("updateProduct " + updateProduct.getPublishs());
+			model.addAttribute("filterCategorys", filterCategorys);
+			return "updateProduct";
+		}
 		String path = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
 		model.addAttribute("path",path);
 
@@ -183,7 +208,8 @@ public class ProductController {
 					System.out.println(rootDirectory);
 					productImage.transferTo(new File(rootDirectory + "resources//img//"+ updateProduct.getId() + ".jpg"));
 			}
-			catch (Exception e) { throw new RuntimeException("Product Image saving failed", e);
+			catch (Exception e) { 
+				throw new RuntimeException("Product Image saving failed", e);
 			}
 		}
 		int id = updateProduct.getId();

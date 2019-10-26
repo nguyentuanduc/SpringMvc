@@ -48,7 +48,7 @@ public class Product {
 	@Column(name = "unit_price")
 	private BigDecimal  unitPrice;
 	
-	@Size(min = 3, max = 10, message="{Size.Product.condition.validation}")
+	@Size(min = 3, max = 11, message="{Size.Product.condition.validation}")
 	@Column(name = "condition_type")
 	private String condition;
 	
@@ -85,11 +85,18 @@ public class Product {
 	
 	@Transient
 	private Set<String> listPublish;
-	
-	public Set<String> getListCategory() {
-		return listCategory;
-	}
 
+	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval=true, fetch=FetchType.EAGER)
+	@JsonIgnore
+	private Set<Publish> publishs = new HashSet<Publish>();
+	
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "product_category_detail", 
+	joinColumns = @JoinColumn(name = "product_id"), 
+	inverseJoinColumns = @JoinColumn(name = "category_id"))
+	@JsonIgnore
+	private Set<Category> categorys = new HashSet<Category>();
+	
 	public void setListCategory(Set<String> listCategory) {
 		if(this.listCategory == null){
 			this.listCategory = new HashSet<String>();
@@ -97,6 +104,10 @@ public class Product {
 		this.listCategory = listCategory;
 	}
 	
+	public Set<String> getListCategory() {
+		return listCategory;
+	}
+
 	public Set<String> getListPublish() {
 		return listPublish;
 	}
@@ -124,18 +135,6 @@ public class Product {
 		this.updated = updated;
 	}
 
-	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval=true, fetch=FetchType.EAGER)
-	@JsonIgnore
-	private Set<Publish> publishs = new HashSet<Publish>();
-	
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "product_category_detail", 
-	joinColumns = @JoinColumn(name = "product_id"), 
-	inverseJoinColumns = @JoinColumn(name = "category_id"))
-	@JsonIgnore
-	private Set<Category> categorys = new HashSet<Category>();
-	
-	
 	public Set<Publish> getPublishs() {
 		return publishs;
 	}
@@ -250,7 +249,7 @@ public class Product {
 
 	
 	public String toStringPublishs() {
-		String result = null;
+		String result = "";
 		if(publishs.size() > 0) {
 			for(Publish element : publishs) {
 				System.out.println(element);
@@ -263,7 +262,7 @@ public class Product {
 
 	
 	public String toStringCategorys() {
-		String result = null;
+		String result = "";
 		if(categorys.size() > 0) {
 			for(Category element : categorys) {
 				System.out.println(element);

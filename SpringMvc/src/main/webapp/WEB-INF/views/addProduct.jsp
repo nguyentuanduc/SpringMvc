@@ -47,6 +47,7 @@
                   <label class="control-label col-lg-2" for="unitsInOrder">UnitsInOrder</label> 
                   <div class="col-lg-10">
                      <form:input id="unitsInOrder" path="unitsInOrder" type="text" class="form:input-large" value=""  maxlength="4"/>
+                     <form:errors path="unitsInOrder" cssClass="text-danger"/>
                   </div>
                </div>
                <div class="form-group">
@@ -147,6 +148,7 @@
             }
          });
    
+        
          </script>
    </body>
 </html>

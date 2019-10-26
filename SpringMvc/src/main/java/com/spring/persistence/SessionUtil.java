@@ -98,10 +98,13 @@ public class SessionUtil {
 		Transaction tx = session.beginTransaction();
 		
 		Set<Publish> publishs = new HashSet<Publish>(product.getPublishs());
-		for(Publish  element : publishs) {
-			product.removePublish(element);
-			element.setProduct(null);
+		if(publishs.size() > 0){
+			for(Publish  element : publishs) {
+				product.removePublish(element);
+				element.setProduct(null);
+			}
 		}
+		
 		session.merge(product);
 		tx.commit();
 		logger.info("removePublish end ");
@@ -115,24 +118,28 @@ public class SessionUtil {
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
 		Set<String> listPublish = product.getListPublish();
-		
-
+		logger.info("listPublish  " + listPublish.size());
 		if(listPublish != null) {
 			for(String  element : listPublish) {
-				Publish publish = new Publish();
-				publish.setName(element);
-				// set one to many
-				product.addPublish(publish);
+				if(element != null && !element.isEmpty()){
+					Publish publish = new Publish();
+					publish.setName(element);
+					// set one to many
+					product.addPublish(publish);
+				}
 			}
 		}
+		logger.info("product listPublish  " + product.getPublishs().size());
 
 		Set<Category> categorys = new HashSet<Category>();
 		Set<String> listCategory = product.getListCategory();
 		if(listCategory != null) {
 			for(String  element : listCategory) {
-				Category category = new Category();
-				category.setCategory_id(element);
-				categorys.add(category);
+				if(element != null && !element.isEmpty()){
+					Category category = new Category();
+					category.setCategory_id(element);
+					categorys.add(category);
+				}
 			}
 			// set many to many
 			product.setCategorys(categorys);
