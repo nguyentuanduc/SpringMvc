@@ -6,5 +6,20 @@ Step to run project
 then import mysql database.
 mysql -u <username> -p java < java.sql
 
+
 2: mvn install
+
 3: mvn tomcat7:run
+
+username: admin
+password: 11
+
+link sample:
+http://localhost:8080/SpringMvc/product/all
+http://localhost:8080/SpringMvc/product/add
+http://localhost:8080/SpringMvc/product/update?id=2
+http://localhost:8080/SpringMvc/product/delete?id=2
+
+
+
+
