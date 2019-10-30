@@ -19,9 +19,9 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.query.Query;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
-@Service("sessionUtil")
+@Repository("sessionUtil")
 public class SessionUtil {
 
 	private static final Logger logger = Logger.getLogger(SessionUtil.class);
