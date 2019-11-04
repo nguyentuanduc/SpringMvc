@@ -14,15 +14,27 @@ public class HomeController {
 
 	private static final Logger logger = Logger.getLogger(HomeController.class);
 	
-//	@Autowired
-//	public  SessionUtil sessionUtil;
+	private String pathUtil;
+
+	private int number = 1;
+
+	private String getPath( HttpServletRequest request){
+		if(pathUtil == null){
+			pathUtil = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+		}
+		logger.info("getPath " + pathUtil);
+		return pathUtil;
+	}
+
 	
 	@RequestMapping("/hello")
 	public String hello(Model model, HttpServletRequest request) {
 		logger.info("hello  begin");
 		model.addAttribute("greeting","hello MVC");
-		
-		String path = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+		number = number + 1;
+		System.out.println(number);
+
+		String path = getPath(request);
 		model.addAttribute("path",path);
 		logger.info("hello  end");
 		return "hello";
@@ -31,7 +43,7 @@ public class HomeController {
 	@RequestMapping("/deny")
 	public String deny(Model model, HttpServletRequest request) {
 		logger.info("deny  begin");
-		String path = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+		String path = getPath(request);
 		model.addAttribute("path",path);
 		logger.info("deny  end");
 		return "common/deny";
@@ -40,8 +52,9 @@ public class HomeController {
 	@RequestMapping("/about")
 	public String about(Model model, HttpServletRequest request) {
 		logger.info("about  begin");
+		System.out.println(number);
 		model.addAttribute("greeting","hello MVC");
-		String path = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+		String path = getPath(request);
 		model.addAttribute("path",path);
 		logger.info("about  end");
 		return "about";

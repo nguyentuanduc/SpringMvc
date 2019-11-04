@@ -23,10 +23,16 @@ public class App {
 	}
 
 	public static void main(String[] args) {
+		int m = 0;
+
+		int n=5;//it is the number to be checked    
+		m = n/2; 
+
+		System.out.println(m);
+
 		
-		
-		App app = new App();
-		app.start();
+		//App app = new App();
+		///app.start();
 		/*SessionUtil instance = new SessionUtil();
 		System.out.println(123);
 		//App app = new App();

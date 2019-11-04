@@ -6,14 +6,14 @@
       <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
       <!-- <link rel="stylesheet" href="resources/css/bootstrap.css" /> -->
       <link rel="stylesheet" href="${path}/resources/css/bootstrap.css" />
-      <title>denied</title>
+      <title>about</title>
    </head>
    <body>
       <section>
          <div class="jumbotron">
             <div class="container">
                <h1>Welcome to Web Store!</h1>
-               <p>request is denied</p>
+               
             </div>
          </div>
       </section>

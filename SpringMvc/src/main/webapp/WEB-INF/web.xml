@@ -4,7 +4,7 @@
 	metadata-complete="true">
 
 	<session-config>
-		<session-timeout>5</session-timeout>
+		<session-timeout>3</session-timeout>
 	</session-config>
 	<!--  <error-page>
         <error-code>404</error-code>

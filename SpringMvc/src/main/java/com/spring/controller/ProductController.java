@@ -34,11 +34,21 @@ import org.springframework.web.multipart.MultipartFile;
 @Controller
 public class ProductController {
 
-	@Autowired
-	public  SessionUtil sessionUtil;
-	
 	private static final Logger logger = Logger.getLogger(ProductController.class);
 	
+	@Autowired
+	public  SessionUtil sessionUtil;
+
+	private String pathUtil;
+
+	private String getPath( HttpServletRequest request){
+		if(pathUtil == null){
+			pathUtil = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+		}
+		logger.info("getPath " + pathUtil);
+		return pathUtil;
+	}
+
 	@RequestMapping("/product/all")
 	public String list(Model model,  HttpServletRequest request) {
 		logger.info("list begin ");
@@ -52,7 +62,7 @@ public class ProductController {
 		model.addAttribute("greeting","hello MVC");
 		model.addAttribute("products",list);
 		
-		String path = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+		String path = getPath(request);
 		model.addAttribute("path",path);
 		model.addAttribute("username",currentUserName);
 		logger.info("list end ");
@@ -104,7 +114,7 @@ public class ProductController {
 	@RequestMapping(value ="/remove", method = RequestMethod.GET)
 	public String removeProductPublish(Model model,  HttpServletRequest request, @RequestParam("id") String producId) {
 		logger.info("removeProductPublish begin ");
-		String path = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+		String path = getPath(request);
 		model.addAttribute("path",path);
 		Product product = null;
 		if(NumberUtils.isDigits(producId)) {
@@ -122,7 +132,7 @@ public class ProductController {
 	@RequestMapping(value ="/product", method = RequestMethod.GET)
 	public String getProductById(Model model,  HttpServletRequest request, @RequestParam("id") String producId) {
 		logger.info("getProductById begin ");
-		String path = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+		String path = getPath(request);
 		model.addAttribute("path",path);
 		Product product = null;
 		if(NumberUtils.isDigits(producId)) {
@@ -138,7 +148,7 @@ public class ProductController {
 	@RequestMapping(value ="/product/update", method = RequestMethod.GET)
 	public String update(Model model,  HttpServletRequest request, @RequestParam("id") String producId) {
 		logger.info("update get begin ");
-		String path = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+		String path = getPath(request);
 
 		model.addAttribute("path",path);
 		Product product = null;
@@ -197,7 +207,7 @@ public class ProductController {
 			model.addAttribute("filterCategorys", filterCategorys);
 			return "updateProduct";
 		}
-		String path = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+		String path = getPath(request);
 		model.addAttribute("path",path);
 
 		sessionUtil.updateProduct(updateProduct);
@@ -224,7 +234,7 @@ public class ProductController {
 	public String delete(Model model,  HttpServletRequest request, @RequestParam("id") String producId) {
 		logger.info("delete begin ");
 		logger.info("delete  producId " + producId);
-		String path = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+		String path = getPath(request);
 		model.addAttribute("path",path);
 		Product product = null;
 		if(NumberUtils.isDigits(producId)) {
@@ -253,7 +263,7 @@ public class ProductController {
 		
 		model.addAttribute("greeting","hello MVC");
 		model.addAttribute("products",list);
-		String path = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+		String path = getPath(request);
 		model.addAttribute("path",path);
 		model.addAttribute("username",currentUserName);
 		logger.info("getListProductBylimitTime end ");
