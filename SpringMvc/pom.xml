@@ -223,8 +223,11 @@
 
 	<build>
 		<finalName>SpringMvc</finalName>
-		<!-- <plugins> <plugin> <groupId>org.apache.tomcat.maven</groupId> <artifactId>tomcat7-maven-plugin</artifactId> 
-			<version>2.1</version> <configuration> <path>/SpringMvc</path> </configuration> 
-			</plugin> </plugins> -->
+		<plugins> 
+			<plugin> 
+				<groupId>org.apache.tomcat.maven</groupId> <artifactId>tomcat7-maven-plugin</artifactId> 
+				<version>2.1</version> <configuration> <path>/SpringMvc</path> </configuration> 
+			</plugin> 
+		</plugins>
 	</build>
 </project>
