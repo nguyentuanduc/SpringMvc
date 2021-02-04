@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -32,10 +33,9 @@ public class WebApplicationContextConfig implements WebMvcConfigurer {
 	@Autowired
 	private Environment env;
 	
-	/*@Override
 	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer config) {
 		config.enable();
-	}*/
+	}
 	
 	@Bean
 	public InternalResourceViewResolver getInternalResourceViewResolver() {
@@ -47,7 +47,6 @@ public class WebApplicationContextConfig implements WebMvcConfigurer {
 		return resolver;
 	}
 	
-	@Override 
 	public void addResourceHandlers(ResourceHandlerRegistry registry) { 
 		registry.addResourceHandler("/resources/**") .addResourceLocations("/resources/"); 
 	}
@@ -89,10 +88,10 @@ public class WebApplicationContextConfig implements WebMvcConfigurer {
 		return bean;
 	}
 
-	@Override 
+/*	@Override 
 	public Validator getValidator(){
 		return validator(); 
-	}
+	}*/
 }
 
 

@@ -33,7 +33,6 @@ public class UserDetailsServiceImp implements UserDetailsService {
 	private MyUserAccountDAO myUserAccountDAO;
 
 	
-	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		System.out.println(" ------------------------------  loadUserByUsername");
 		UserInformation user = myUserAccountDAO.findUserByUsername(username);

@@ -1,4 +1,4 @@
-package com.spring.social;
+/*package com.spring.social;
 
 
 import org.springframework.social.connect.Connection;
@@ -27,3 +27,4 @@ public class MyConnectionSignUp implements ConnectionSignUp {
     }
  
 }
+*/

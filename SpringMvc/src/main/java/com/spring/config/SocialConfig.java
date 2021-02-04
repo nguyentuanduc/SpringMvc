@@ -1,4 +1,4 @@
-package com.spring.config;
+/*package com.spring.config;
 
 import javax.sql.DataSource;
 
@@ -19,6 +19,7 @@ import org.springframework.social.connect.ConnectionSignUp;
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository;
 import org.springframework.social.connect.web.ConnectController;
+import org.springframework.social.facebook.connect.FacebookConnectionFactory;
 import org.springframework.social.google.connect.GoogleConnectionFactory;
 import org.springframework.social.security.AuthenticationNameUserIdSource;
 
@@ -47,12 +48,21 @@ public class SocialConfig implements SocialConfigurer {
 		System.out.println("addConnectionFactories");
 		logger.info("addConnectionFactories ");
 		// Google
-		GoogleConnectionFactory gfactory = new GoogleConnectionFactory(//
-				env.getProperty("google.client.id"), //
+		GoogleConnectionFactory gfactory = new GoogleConnectionFactory(env.getProperty("google.client.id"),
 				env.getProperty("google.client.secret"));
 
 		gfactory.setScope(env.getProperty("google.scope"));
 
+		
+		// Facebook
+	      FacebookConnectionFactory ffactory = new FacebookConnectionFactory(//
+	              env.getProperty("facebook.app.id"), //
+	              env.getProperty("facebook.app.secret"));
+	      
+	      
+	      ffactory.setScope(env.getProperty("facebook.scope"));
+	      
+	    cfConfig.addConnectionFactory(ffactory);
 		cfConfig.addConnectionFactory(gfactory);
 	}
 
@@ -71,14 +81,13 @@ public class SocialConfig implements SocialConfigurer {
 		logger.info("getUsersConnectionRepository ");
 		// org.springframework.social.security.SocialAuthenticationServiceRegistry
 		JdbcUsersConnectionRepository usersConnectionRepository = new JdbcUsersConnectionRepository(dataSource,
-				connectionFactoryLocator,
-
-				Encryptors.noOpText());
+				connectionFactoryLocator, Encryptors.noOpText());
 
 		if (autoSignUp) {
 			// Config to:
 			// After login to social.
 			// Automatically create corresponding USER_ACCOUNT if not already.
+			logger.info("getUsersConnectionRepository autoSignUp ");
 			ConnectionSignUp connectionSignUp = new MyConnectionSignUp(myUserAccountDAO);
 			usersConnectionRepository.setConnectionSignUp(connectionSignUp);
 		} else {
@@ -86,6 +95,7 @@ public class SocialConfig implements SocialConfigurer {
 			// After login to social.
 			// If USER_ACCOUNTS does not exists
 			// Redirect to register page.
+			logger.info("getUsersConnectionRepository null ");
 			usersConnectionRepository.setConnectionSignUp(null);
 		}
 		return usersConnectionRepository;
@@ -94,11 +104,13 @@ public class SocialConfig implements SocialConfigurer {
 	// This bean manages the connection flow between the account provider and
 	// the example application.
 	@Bean
-	public ConnectController connectController(ConnectionFactoryLocator connectionFactoryLocator, //
+	public ConnectController connectController(ConnectionFactoryLocator connectionFactoryLocator,
 			ConnectionRepository connectionRepository) {
 		System.out.println("connectController");
 		logger.info("connectController ");
-		return new ConnectController(connectionFactoryLocator, connectionRepository);
+		ConnectController connectController = new ConnectController(connectionFactoryLocator, connectionRepository);
+		return connectController;
 	}
 
 }
+*/

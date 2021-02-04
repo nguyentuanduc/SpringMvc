@@ -12,27 +12,27 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.social.security.SpringSocialConfigurer;
 
 @Configuration
 @EnableWebSecurity
-@ComponentScan("com.spring.*")
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	/*
-	 * @Autowired public void configureGlobalSecurity(AuthenticationManagerBuilder
-	 * auth) throws Exception {
-	 * auth.inMemoryAuthentication().withUser("john").password("11 ").roles("USER");
-	 * auth.inMemoryAuthentication().withUser("admin").password("22 ").roles("USER",
-	 * "ADMIN"); }
-	 * 
-	 * 
-	 * @Override protected void configure(AuthenticationManagerBuilder auth) throws
-	 * Exception { auth.inMemoryAuthentication()
-	 * .withUser("user1").password("{noop}11").roles("USER") .and()
-	 * .withUser("user2").password("{noop}22").roles("USER") .and()
-	 * .withUser("admin").password("{noop}admin").roles("USER", "ADMIN"); }
-	 */
+	
+	 /* @Autowired 
+	  public void configureGlobalSecurity(AuthenticationManagerBuilder
+	  auth) throws Exception {
+	  auth.inMemoryAuthentication().withUser("john").password("11 ").roles("USER");
+	  auth.inMemoryAuthentication().withUser("admin").password("22 ").roles("USER",
+	  "ADMIN"); }*/
+	  
+	  
+	 /* @Override protected void configure(AuthenticationManagerBuilder auth) throws Exception { 
+		  auth.inMemoryAuthentication()
+	  .withUser("user1").password("{noop}11").roles("USER") .and()
+	  .withUser("user2").password("{noop}22").roles("USER") .and()
+	  .withUser("admin").password("{noop}admin").roles("USER", "ADMIN"); 
+		  }*/
+	 
 
 	@Autowired
 	private UserDetailsServiceImp userDetailsServiceImp;
@@ -43,10 +43,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	};
 	
 	
-	@Override
+	/*@Override
 	  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 	    auth.userDetailsService(userDetailsServiceImp).passwordEncoder(passwordEncoder());
-	  }
+	  }*/
 	
 	
 	@Override
@@ -59,7 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.formLogin().defaultSuccessUrl("/product/all").failureUrl("/login?error");
 		
 		http.authorizeRequests()
-		.antMatchers("/resources/**", "/about", "/","/signup", "/login", "/logingoogle", "/login-google", "/user-google", "/admin-google", "/403", "/rest/**").permitAll()
+		.antMatchers("/resources/**", "/about", "/","/signup", "/login", "/logingoogle", "/login-google", "/login-facebook", "/user-google", "/admin-google", "/403", "/rest/**").permitAll()
 		.antMatchers("/hello/**").access("hasRole('ROLE_ADMIN')")
 		.antMatchers("/product/**").access("hasRole('ROLE_USER')")
 		.antMatchers("/db/**").access("hasRole('ROLE_ADMIN') and hasRole('DBA')")
@@ -69,7 +69,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.exceptionHandling().accessDeniedPage("/deny");
 		http.logout().logoutSuccessUrl("/login?logout");
 		
-		http.apply(new SpringSocialConfigurer()).signupUrl("/signup");
 		
 		http.csrf().disable();
 	}

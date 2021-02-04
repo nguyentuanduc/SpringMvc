@@ -46,7 +46,7 @@ public class UserCustom {
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
 	@JsonIgnore
-	private Set<Authorities> authorities = new HashSet<>();
+	private Set<Authorities> authorities = new HashSet<Authorities>();
 
 	public int getId() {
 		return id;

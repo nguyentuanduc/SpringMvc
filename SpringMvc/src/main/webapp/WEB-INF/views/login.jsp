@@ -1,6 +1,8 @@
 <%@ page isELIgnored="false" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%> <!DOCTYPE html> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%> 
+<!DOCTYPE html> 
 <html>
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -55,9 +57,14 @@
                       <div class="panel-heading">
                             <h3 class="panel-title"><a href="/SpringMvc/auth/google">Sign in with Google</a></h3>
                       </div>
+                      <div class="panel-heading">
+                            <h3 class="panel-title"><a href="https://localhost:8443/SpringMvc/auth/facebook">Sign in with Facebook</a></h3>
+                      </div>
+                      <div class="panel-heading">
+                        <h3 class="panel-title"><a href="https://www.facebook.com/dialog/oauth?client_id=2675363909194077&redirect_uri=https://localhost:8443/SpringMvc/login-facebook">Login Facebook</a></h3>
+                  </div>
                  </div>
             </div>
          </div>
       </div>
    </body>
-

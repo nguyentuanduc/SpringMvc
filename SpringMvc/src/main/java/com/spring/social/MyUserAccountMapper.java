@@ -8,7 +8,6 @@ import org.springframework.jdbc.core.RowMapper;
  
 public class MyUserAccountMapper implements RowMapper<MyUserAccount> {
  
-    @Override
     public MyUserAccount mapRow(ResultSet rs, int rowNum) throws SQLException {
 		System.out.println(" ------------mapRow-----------------  MyUserAccount");
 

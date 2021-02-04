@@ -1,4 +1,4 @@
-package com.spring.social;
+/*package com.spring.social;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -66,4 +66,4 @@ public class MyUserAccountValidator implements Validator {
         }
     }
  
-}
+}*/

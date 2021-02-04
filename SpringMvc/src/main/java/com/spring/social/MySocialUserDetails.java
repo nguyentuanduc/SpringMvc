@@ -1,4 +1,4 @@
-package com.spring.social;
+/*package com.spring.social;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -74,4 +74,4 @@ public class MySocialUserDetails implements SocialUserDetails {
     
     
     
-}
+}*/

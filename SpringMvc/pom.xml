@@ -206,12 +206,6 @@
 			<artifactId>restfb</artifactId>
 			<version>2.3.0</version>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.social</groupId>
-			<artifactId>spring-social-facebook</artifactId>
-			<version>3.0.0.M1</version>
-		</dependency>
-
 
 	</dependencies>
 	<repositories>
@@ -225,8 +219,12 @@
 		<finalName>SpringMvc</finalName>
 		<plugins> 
 			<plugin> 
-				<groupId>org.apache.tomcat.maven</groupId> <artifactId>tomcat7-maven-plugin</artifactId> 
-				<version>2.1</version> <configuration> <path>/SpringMvc</path> </configuration> 
+				<groupId>org.apache.tomcat.maven</groupId> 
+				<artifactId>tomcat7-maven-plugin</artifactId> 
+				<version>2.1</version> 
+				<configuration> 
+				<path>/SpringMvc</path> 
+				</configuration> 
 			</plugin> 
 		</plugins>
 	</build>

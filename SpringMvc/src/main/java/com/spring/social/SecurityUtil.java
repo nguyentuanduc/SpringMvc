@@ -1,4 +1,4 @@
-package com.spring.social;
+/*package com.spring.social;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -17,3 +17,4 @@ public class SecurityUtil {
 	}
 
 }
+*/

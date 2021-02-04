@@ -1,12 +1,8 @@
-package com.spring.controller;
+/*package com.spring.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.social.connect.Connection;
-import org.springframework.social.connect.ConnectionFactoryLocator;
-import org.springframework.social.connect.UsersConnectionRepository;
-import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -42,11 +38,6 @@ public class SocialController {
 	@Autowired
 	private MyUserAccountDAO myUserAccountDAO;
 
-	@Autowired
-	private ConnectionFactoryLocator connectionFactoryLocator;
-
-	@Autowired
-	private UsersConnectionRepository connectionRepository;
 
 	@Autowired
 	private MyUserAccountValidator myUserAccountValidator;
@@ -100,7 +91,7 @@ public class SocialController {
 
 		Connection<?> connection = providerSignInUtils.getConnectionFromSession(request);
 
-		//
+		logger.info("connection ");
 		MyUserAccountForm myForm = null;
 		//
 		if (connection != null) {
@@ -172,4 +163,4 @@ public class SocialController {
 		return "social/userinfo_custom";
 	}
 
-}
+}*/

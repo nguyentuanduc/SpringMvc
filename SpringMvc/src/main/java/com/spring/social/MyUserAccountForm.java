@@ -1,11 +1,13 @@
 package com.spring.social;
 
+import org.apache.log4j.Logger;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionKey;
 import org.springframework.social.connect.UserProfile;
  
 public class MyUserAccountForm {
- 
+	private static final Logger logger = Logger.getLogger(MyUserAccountForm.class);
+
     private String id;
     private String email;
     private String userName;
@@ -21,20 +23,41 @@ public class MyUserAccountForm {
     }
  
     public MyUserAccountForm(Connection<?> connection) {
+    	logger.info("MyUserAccountForm 1");
         UserProfile socialUserProfile = connection.fetchUserProfile();
+        logger.info("MyUserAccountForm 2");
+        logger.info(socialUserProfile.toString());
+        
         this.id = null;
-        this.email = socialUserProfile.getEmail();
-        this.userName = socialUserProfile.getUsername();
-        this.firstName = socialUserProfile.getFirstName();
-        this.lastName = socialUserProfile.getLastName();
+        /*
+        if(socialUserProfile.getEmail() != null) {
+        	this.email = socialUserProfile.getEmail();
+        }
+        if(socialUserProfile.getUsername() != null) {
+        	this.userName = socialUserProfile.getUsername();
+        }
+       
+        if(socialUserProfile.getFirstName() != null) {
+        	this.firstName = socialUserProfile.getFirstName();
+        }
+        
+        if(socialUserProfile.getLastName() != null) {
+        	this.lastName = socialUserProfile.getLastName();
+        }*/
  
-        ConnectionKey key = connection.getKey();
-        // google, facebook, twitter
-        this.signInProvider = key.getProviderId();
- 
-        // ID of User on google, facebook, twitter.
-        // ID của User trên google, facebook, twitter.
-        this.providerUserId = key.getProviderUserId();
+        if(connection.getKey() != null) {
+        	 ConnectionKey key = connection.getKey();
+             // google, facebook, twitter
+             if( key.getProviderId() != null) {
+            	 this.signInProvider = key.getProviderId();
+             }
+             // ID of User on google, facebook, twitter.
+             // ID của User trên google, facebook, twitter.
+             if( key.getProviderUserId() != null) {
+            	 this.providerUserId = key.getProviderUserId();
+             }
+        }
+       
     }
  
     public String getId() {

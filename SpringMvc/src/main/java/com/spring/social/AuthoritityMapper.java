@@ -1,4 +1,4 @@
-package com.spring.social;
+/*package com.spring.social;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,3 +15,4 @@ public class AuthoritityMapper implements RowMapper<MyUserAccount> {
 
 }
 
+*/
