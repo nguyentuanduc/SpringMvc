@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.20, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 5.5.56, for linux-glibc2.5 (x86_64)
 --
--- Host: 127.0.0.1    Database: java
+-- Host: localhost    Database: java
 -- ------------------------------------------------------
--- Server version	5.6.44
+-- Server version	5.5.56-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -377,7 +377,7 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (2,'Collection Book','111',12,'Refurbished',0,0,0,'2019-10-22 07:03:04','2019-09-23 07:12:00','2019-09-20 07:12:46',0),(3,'Pro Spring 5 ','Pro Spring 5 ',1,'New',10,1,1,'2019-10-24 02:48:39','2019-09-24 07:12:00','2019-09-20 07:12:46',0),(6,'12','123131',12,'New',12,12,1,'2019-10-22 04:10:00','2019-09-25 07:12:00','2019-09-20 07:12:46',1),(7,'eclipse','how to use eclipse for developer',100,'New',10,1,1,'2019-09-30 08:03:52','2019-09-26 07:12:00','2019-09-20 07:12:46',0),(8,'Learn java in one day','good book',40,'New',5,1,1,'2019-09-30 08:03:52','2019-09-20 07:12:46','2019-09-20 07:12:46',0),(11,'Java Event a1','Java Event',23,'New',12,1,1,'2019-09-30 16:06:39','2019-09-30 16:04:16','0000-00-00 00:00:00',0),(14,'Spring 5 Recipes','solution',23,'Old',11,1,1,'2019-10-17 08:13:49','2019-10-14 08:31:12','0000-00-00 00:00:00',0),(16,'Hibernate','aaaa',33,'New',11,2,1,'2019-10-22 04:09:45','2019-10-15 07:14:00','0000-00-00 00:00:00',0),(17,'Spring 5 Recipes 5','111',12,'New',11,1,1,'2019-10-20 16:10:26','2019-10-15 10:14:15','0000-00-00 00:00:00',1),(18,'Java In Easy Step','no des',1,'New',10,1,1,'2019-10-22 03:44:49','2019-10-19 05:33:14','0000-00-00 00:00:00',0);
+INSERT INTO `products` VALUES (2,'Collection Book','111',12,'Refurbished',0,0,0,'2019-10-22 07:03:04','2019-09-23 07:12:00','2019-09-20 07:12:46',0),(3,'Pro Spring 5 ','Pro Spring 5 ',5,'New',15,1,1,'2021-02-14 14:08:55','2019-09-24 07:12:00','2019-09-20 07:12:46',0),(6,'12','123131',12,'New',12,12,1,'2019-10-22 04:10:00','2019-09-25 07:12:00','2019-09-20 07:12:46',1),(7,'eclipse','how to use eclipse for developer',100,'New',10,1,1,'2019-09-30 08:03:52','2019-09-26 07:12:00','2019-09-20 07:12:46',0),(8,'Learn java in one day','good book',40,'New',5,1,1,'2019-09-30 08:03:52','2019-09-20 07:12:46','2019-09-20 07:12:46',0),(11,'Java Event a1','Java Event',23,'New',12,1,1,'2019-09-30 16:06:39','2019-09-30 16:04:16','0000-00-00 00:00:00',0),(14,'Spring 5 Recipes','solution',23,'Old',11,1,1,'2019-10-17 08:13:49','2019-10-14 08:31:12','0000-00-00 00:00:00',0),(16,'Hibernate','aaaa',33,'New',11,2,1,'2019-10-22 04:09:45','2019-10-15 07:14:00','0000-00-00 00:00:00',0),(17,'Spring 5 Recipes 5','111',12,'New',11,1,1,'2019-10-20 16:10:26','2019-10-15 10:14:15','0000-00-00 00:00:00',1),(18,'Java In Easy Step','no des',1,'New',10,1,1,'2019-10-22 03:44:49','2019-10-19 05:33:14','0000-00-00 00:00:00',0);
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -395,7 +395,7 @@ CREATE TABLE `publish` (
   PRIMARY KEY (`publish_id`),
   KEY `fk_author_1` (`product_id`),
   CONSTRAINT `fk_author_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -404,7 +404,7 @@ CREATE TABLE `publish` (
 
 LOCK TABLES `publish` WRITE;
 /*!40000 ALTER TABLE `publish` DISABLE KEYS */;
-INSERT INTO `publish` VALUES (6,6,'OReilly'),(7,7,'SoftWare'),(8,8,'OReilly'),(27,14,'aaa3'),(31,17,'Apress 1'),(36,2,'Apress'),(37,3,'Apress');
+INSERT INTO `publish` VALUES (6,6,'OReilly'),(7,7,'SoftWare'),(8,8,'OReilly'),(27,14,'aaa3'),(31,17,'Apress 1'),(36,2,'Apress'),(38,3,'Apress');
 /*!40000 ALTER TABLE `publish` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -492,4 +492,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-10-25  9:55:45
+-- Dump completed on 2021-02-18  7:40:31
